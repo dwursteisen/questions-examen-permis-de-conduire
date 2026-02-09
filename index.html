@@ -256,7 +256,7 @@
         </label>
         <select id="foreigner-select" onchange="onForeignerSelectChange()" style="display:none;">
             <option value="english">English</option>
-            <option value="simple">Fran&#231;ais simplifi&#233;</option>
+            <option value="simple">Français simplifié</option>
             <option value="both">Les deux</option>
         </select>
     </div>
@@ -2018,7 +2018,7 @@
       "question": "Actionnez le dégivrage de la lunette arrière et montrez le voyant ou le repère correspondant.",
       "answer": "L'action est effectuée par le candidat qui montre également le voyant.",
       "answer_en": "The action is performed by the candidate, who also shows the indicator light.",
-      "answer_simple": "Le candidat allume les feux de route (feux forts) et montre le voyant."
+      "answer_simple": "Le candidat active le dégivrage de la vitre arrière et montre le voyant."
     },
     "qser": {
       "type": "QSER",
@@ -2089,8 +2089,8 @@
       "type": "VE",
       "question": "Contrôlez l'état, la propreté et le fonctionnement des feux de détresse à l'avant et à l'arrière.",
       "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
-      "answer_en": "Check that the brake lights are clean, in good condition and working (any anomaly must be reported).",
-      "answer_simple": "Les feux de stop doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
+      "answer_en": "Check that the hazard lights are clean, in good condition and working (any anomaly must be reported).",
+      "answer_simple": "Les feux de détresse (les warnings) doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
     },
     "qser": {
       "type": "QSER",
@@ -2137,8 +2137,8 @@
       "type": "VE",
       "question": "Contrôlez l'état, la propreté et le fonctionnement des feux de route.",
       "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
-      "answer_en": "Check that the brake lights are clean, in good condition and working (any anomaly must be reported).",
-      "answer_simple": "Les feux de stop doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
+      "answer_en": "Check that the high beam lights are clean, in good condition and working (any anomaly must be reported).",
+      "answer_simple": "Les feux de route (feux forts) doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
     },
     "qser": {
       "type": "QSER",
@@ -2233,8 +2233,8 @@
       "type": "VE",
       "question": "Contrôlez l'état, la propreté et le fonctionnement des feux de croisement.",
       "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
-      "answer_en": "Check that the brake lights are clean, in good condition and working (any anomaly must be reported).",
-      "answer_simple": "Les feux de stop doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
+      "answer_en": "Check that the dipped beam lights are clean, in good condition and working (any anomaly must be reported).",
+      "answer_simple": "Les feux de croisement (feux normaux) doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
     },
     "qser": {
       "type": "QSER",
@@ -2450,7 +2450,7 @@
       "question": "Allumez le(s) feu(x) de brouillard arrière(s) et montrez le voyant correspondant.",
       "answer": "L'action est effectuée par le candidat qui montre également le voyant.",
       "answer_en": "The action is performed by the candidate, who also shows the indicator light.",
-      "answer_simple": "Le candidat allume les feux de route (feux forts) et montre le voyant."
+      "answer_simple": "Le candidat allume les feux de brouillard arrière et montre le voyant."
     },
     "qser": {
       "type": "QSER",
@@ -2473,8 +2473,8 @@
       "type": "VE",
       "question": "Vérifiez l'état, la propreté et le fonctionnement des feux diurnes.",
       "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
-      "answer_en": "Check that the brake lights are clean, in good condition and working (any anomaly must be reported).",
-      "answer_simple": "Les feux de stop doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
+      "answer_en": "Check that the daytime running lights are clean, in good condition and working (any anomaly must be reported).",
+      "answer_simple": "Les feux de jour doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
     },
     "qser": {
       "type": "QSER",
@@ -2744,10 +2744,10 @@
 
             let translationsHTML = '';
             if ((foreignerMode === 'english' || foreignerMode === 'both') && itemData.answer_en) {
-                translationsHTML += `<p class="answer-text translation-en" style="display:none;"><span class="translation-label">\ud83c\uddec\ud83c\udde7</span>${itemData.answer_en}</p>`;
+                translationsHTML += `<p class="answer-text translation-en" style="display:none;"><span class="translation-label">🇬🇧</span>${itemData.answer_en}</p>`;
             }
             if ((foreignerMode === 'simple' || foreignerMode === 'both') && itemData.answer_simple) {
-                translationsHTML += `<p class="answer-text translation-simple" style="display:none;"><span class="translation-label">\ud83c\uddeb\ud83c\uddf7 Simple</span>${itemData.answer_simple}</p>`;
+                translationsHTML += `<p class="answer-text translation-simple" style="display:none;"><span class="translation-label">🇫🇷 Simple</span>${itemData.answer_simple}</p>`;
             }
 
             return `
