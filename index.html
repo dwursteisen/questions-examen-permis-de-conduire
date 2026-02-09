@@ -146,6 +146,87 @@
             color: #0056b3;
         }
 
+        /* Foreigner mode config button */
+        #foreigner-config-btn {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            user-select: none;
+            transition: background 0.2s;
+        }
+        #foreigner-config-btn:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+        #config-mode-label {
+            font-size: 0.6em;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        /* Config panel */
+        #foreigner-config-panel {
+            display: none;
+            position: fixed;
+            top: 48px;
+            right: 10px;
+            z-index: 1000;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            min-width: 220px;
+            text-align: left;
+        }
+        #foreigner-config-panel.open {
+            display: block;
+        }
+        #foreigner-config-panel label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            cursor: pointer;
+        }
+        #foreigner-config-panel select {
+            width: 100%;
+            padding: 6px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 0.9em;
+            margin-top: 8px;
+        }
+        .config-panel-title {
+            font-weight: bold;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        /* Translation blocks */
+        .translation-en {
+            background-color: #e3f2fd !important;
+            border: 1px solid #90caf9 !important;
+        }
+        .translation-simple {
+            background-color: #fff8e1 !important;
+            border: 1px solid #ffe082 !important;
+        }
+        .translation-label {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
         /* Desktop adjustments */
         @media (min-width: 600px) {
             .buttons-container {
@@ -161,6 +242,24 @@
     </style>
 </head>
 <body>
+
+    <div id="foreigner-config-btn" onclick="toggleConfigPanel()">
+        <span id="config-icon">&#9881;</span>
+        <span id="config-mode-label"></span>
+    </div>
+
+    <div id="foreigner-config-panel">
+        <div class="config-panel-title">Mode Foreigner</div>
+        <label>
+            <input type="checkbox" id="foreigner-toggle" onchange="onForeignerToggle()">
+            Activer les traductions
+        </label>
+        <select id="foreigner-select" onchange="onForeignerSelectChange()" style="display:none;">
+            <option value="english">English</option>
+            <option value="simple">Fran&#231;ais simplifi&#233;</option>
+            <option value="both">Les deux</option>
+        </select>
+    </div>
 
     <div class="container">
         <h1>Questionnaire Permis</h1>
@@ -189,17 +288,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez la commande de réglage de hauteur des feux.",
-      "answer": "Dispositif situé en général à gauche du volant."
+      "answer": "Dispositif situé en général à gauche du volant.",
+      "answer_en": "The control is usually located to the left of the steering wheel.",
+      "answer_simple": "C'est un bouton. Il est souvent à gauche du volant."
     },
     "qser": {
       "type": "QSER",
       "question": "Pourquoi doit-on régler la hauteur des feux ?",
-      "answer": "Pour ne pas éblouir les autres usagers."
+      "answer": "Pour ne pas éblouir les autres usagers.",
+      "answer_en": "To avoid dazzling other road users.",
+      "answer_simple": "Pour ne pas gêner avec la lumière les autres personnes sur la route."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment et pourquoi protéger une zone de danger en cas d'accident de la route?",
-      "answer": "En délimitant clairement et largement la zone de danger de façon visible pour protéger les victimes et éviter un sur-accident."
+      "answer": "En délimitant clairement et largement la zone de danger de façon visible pour protéger les victimes et éviter un sur-accident.",
+      "answer_en": "By clearly and widely marking the danger zone in a visible way, to protect the victims and prevent a secondary accident.",
+      "answer_simple": "Il faut marquer la zone de danger. On la rend bien visible. C'est pour protéger les victimes et éviter un autre accident."
     }
   },
   {
@@ -207,17 +312,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez où s'effectue le remplissage du produit lave-glace.",
-      "answer": "Le candidat ouvre le capot et montre le bocal. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder."
+      "answer": "Le candidat ouvre le capot et montre le bocal. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder.",
+      "answer_en": "The candidate opens the hood and shows the reservoir. If the candidate has difficulty opening the hood, the accompanying driver may indicate how to proceed.",
+      "answer_simple": "Le candidat ouvre le capot (avant de la voiture) et montre le réservoir. Si c'est difficile d'ouvrir le capot, l'accompagnateur peut aider."
     },
     "qser": {
       "type": "QSER",
       "question": "Pourquoi est-il préférable d'utiliser un liquide spécial en hiver?",
-      "answer": "Pour éviter le gel du liquide."
+      "answer": "Pour éviter le gel du liquide.",
+      "answer_en": "To prevent the liquid from freezing.",
+      "answer_simple": "Pour que le liquide ne gèle pas quand il fait froid."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels comportements adopter en cas de diffusion du signal d'alerte du Système d'Alerte et d'Information des Populations (SAIP)?",
-      "answer": "- Se mettre en sécurité.\n- S'informer grâce aux médias et sites internet des autorités dès que leur consultation est possible.\n- Respecter les consignes des autorités."
+      "answer": "- Se mettre en sécurité.\n- S'informer grâce aux médias et sites internet des autorités dès que leur consultation est possible.\n- Respecter les consignes des autorités.",
+      "answer_en": "- Get to safety.\n- Get information from the media and official authority websites as soon as possible.\n- Follow the instructions of the authorities.",
+      "answer_simple": "- Se mettre en sécurité.\n- Chercher des informations à la radio, à la télévision ou sur internet.\n- Faire ce que les autorités demandent."
     }
   },
   {
@@ -225,17 +336,23 @@
     "verification": {
       "type": "VI",
       "question": "Mettez le rétroviseur intérieur en position \"nuit\". Si le rétroviseur de l'accompagnateur gène la manipulation du dispositif, l'explication suffit.",
-      "answer": "Le candidat actionne le dispositif. Si le véhicule possède un système automatique de mise en position \"nuit\" du rétroviseur intérieur, le candidat l'indique."
+      "answer": "Le candidat actionne le dispositif. Si le véhicule possède un système automatique de mise en position \"nuit\" du rétroviseur intérieur, le candidat l'indique.",
+      "answer_en": "The candidate activates the device. If the vehicle has an automatic night mode for the interior rearview mirror, the candidate indicates it.",
+      "answer_simple": "Le candidat utilise le bouton du miroir intérieur. Si la voiture a un mode nuit automatique, le candidat le dit."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel est l'intérêt de la position nuit ?",
-      "answer": "Ne pas être ébloui par les feux du véhicule suiveur."
+      "answer": "Ne pas être ébloui par les feux du véhicule suiveur.",
+      "answer_en": "To avoid being dazzled by the headlights of the vehicle behind you.",
+      "answer_simple": "Pour ne pas être gêné par la lumière de la voiture derrière."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment est composé le signal d'alerte du Système d'Alerte et d'Information des Populations (SAIP) diffusé par les sirènes ?",
-      "answer": "Il se compose de deux codes distincts:\n- le Signal National d'Alerte (SNA), variation du signal sur trois cycles successifs.\n- Le signal de fin d'alerte, signal continu."
+      "answer": "Il se compose de deux codes distincts:\n- le Signal National d'Alerte (SNA), variation du signal sur trois cycles successifs.\n- Le signal de fin d'alerte, signal continu.",
+      "answer_en": "It consists of two distinct codes:\n- The National Alert Signal (SNA), a varying signal over three successive cycles.\n- The end-of-alert signal, a continuous tone.",
+      "answer_simple": "Il y a deux sons différents :\n- Le signal d'alerte : le son change trois fois.\n- Le signal de fin : le son est continu (il ne change pas)."
     }
   },
   {
@@ -243,17 +360,23 @@
     "verification": {
       "type": "VE",
       "question": "Contrôlez l'état du flanc sur l'un des pneumatiques.",
-      "answer": "Le candidat vérifie l'état d'un flanc de pneumatique. En bon état (toute anomalie doit être signalée)."
+      "answer": "Le candidat vérifie l'état d'un flanc de pneumatique. En bon état (toute anomalie doit être signalée).",
+      "answer_en": "The candidate checks the condition of a tire sidewall. In good condition (any defect must be reported).",
+      "answer_simple": "Le candidat regarde le côté d'un pneu. Le pneu est en bon état. Si quelque chose ne va pas, il faut le dire."
     },
     "qser": {
       "type": "QSER",
       "question": "Citez un endroit où l'on peut trouver les pressions préconisées pour les pneumatiques?",
-      "answer": "Elles sont indiquées :\n- soit sur une plaque sur une portière.\n- soit dans la notice d'utilisation du véhicule.\n- soit au niveau de la trappe à carburant."
+      "answer": "Elles sont indiquées :\n- soit sur une plaque sur une portière.\n- soit dans la notice d'utilisation du véhicule.\n- soit au niveau de la trappe à carburant.",
+      "answer_en": "They are indicated:\n- Either on a plate on a door.\n- Or in the vehicle owner's manual.\n- Or near the fuel filler cap.",
+      "answer_simple": "On peut trouver la bonne pression des pneus :\n- Sur une étiquette sur la portière.\n- Dans le livre de la voiture.\n- Près du bouchon d'essence."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Sur autoroute, comment indiquer avec précision les lieux de l'accident depuis un téléphone portable?",
-      "answer": "En indiquant le numéro de l'autoroute, le sens de circulation et le point kilométrique."
+      "answer": "En indiquant le numéro de l'autoroute, le sens de circulation et le point kilométrique.",
+      "answer_en": "By providing the highway number, the direction of travel, and the kilometer marker.",
+      "answer_simple": "Il faut donner le numéro de l'autoroute, la direction et le point kilométrique."
     }
   },
   {
@@ -261,17 +384,23 @@
     "verification": {
       "type": "VI",
       "question": "Faites fonctionner les essuie-glaces avants du véhicule sur la position la plus rapide.",
-      "answer": "L'action est effectuée par le candidat."
+      "answer": "L'action est effectuée par le candidat.",
+      "answer_en": "The action is performed by the candidate.",
+      "answer_simple": "Le candidat fait l'action."
     },
     "qser": {
       "type": "QSER",
       "question": "Comment détecter leur usure en circulation?",
-      "answer": "En cas de pluie, lorsqu'ils laissent des traces sur le pare brise."
+      "answer": "En cas de pluie, lorsqu'ils laissent des traces sur le pare brise.",
+      "answer_en": "When it rains, if they leave streaks on the windshield.",
+      "answer_simple": "Quand il pleut, les essuie-glaces laissent des traces sur le pare-brise."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment vérifier la respiration d'une victime?",
-      "answer": "Regarder si le ventre et la poitrine se soulèvent et sentir de l'air à l'expiration."
+      "answer": "Regarder si le ventre et la poitrine se soulèvent et sentir de l'air à l'expiration.",
+      "answer_en": "Check whether the belly and chest are rising, and feel for air being exhaled.",
+      "answer_simple": "Il faut regarder si le ventre et la poitrine bougent. Il faut aussi sentir l'air qui sort du nez ou de la bouche."
     }
   },
   {
@@ -279,17 +408,23 @@
     "verification": {
       "type": "VE",
       "question": "Vérifiez l'état et la propreté des plaques d'immatriculation.",
-      "answer": "Vérification des plaques à l'avant et à l'arrière, propres et en bon état (toute anomalie doit être signalée)."
+      "answer": "Vérification des plaques à l'avant et à l'arrière, propres et en bon état (toute anomalie doit être signalée).",
+      "answer_en": "Check the front and rear license plates, clean and in good condition (any defect must be reported).",
+      "answer_simple": "Il faut vérifier les plaques à l'avant et à l'arrière. Elles sont propres et en bon état. Si quelque chose ne va pas, il faut le dire."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelles sont les précautions à prendre en cas d'installation d'un porte vélo ?",
-      "answer": "La plaque d'immatriculation et les feux doivent être visibles."
+      "answer": "La plaque d'immatriculation et les feux doivent être visibles.",
+      "answer_en": "The license plate and lights must remain visible.",
+      "answer_simple": "La plaque et les feux doivent rester visibles."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Qu'est ce qu'une perte de connaissance?",
-      "answer": "C'est lorsque la victime ne répond pas et ne réagit pas mais respire."
+      "answer": "C'est lorsque la victime ne répond pas et ne réagit pas mais respire.",
+      "answer_en": "It is when the victim does not respond and does not react, but is still breathing.",
+      "answer_simple": "C'est quand la personne ne répond pas et ne bouge pas, mais elle respire."
     }
   },
   {
@@ -297,17 +432,23 @@
     "verification": {
       "type": "VI",
       "question": "Vérifiez la présence du gilet de haute visibilité.",
-      "answer": "Le candidat doit indiquer où il se trouve sans obligation de le sortir. Le terme \"gilet jaune\" peut être utilisé si le candidat ne comprend pas."
+      "answer": "Le candidat doit indiquer où il se trouve sans obligation de le sortir. Le terme \"gilet jaune\" peut être utilisé si le candidat ne comprend pas.",
+      "answer_en": "The candidate must indicate where the high-visibility vest is located, without having to take it out. The term \"yellow vest\" may be used if the candidate does not understand.",
+      "answer_simple": "Le candidat dit où est le gilet jaune. Il n'a pas besoin de le sortir."
     },
     "qser": {
       "type": "QSER",
       "question": "En cas de panne ou d'accident, quel autre accessoire de sécurité est obligatoire?",
-      "answer": "Le triangle de pré-signalisation."
+      "answer": "Le triangle de pré-signalisation.",
+      "answer_en": "The warning triangle.",
+      "answer_simple": "Le triangle de signalisation."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Si un dégagement d'urgence de la victime est nécessaire, où doit-elle être déplacée ?",
-      "answer": "Dans un endroit suffisamment éloigné du danger et de ses conséquences."
+      "answer": "Dans un endroit suffisamment éloigné du danger et de ses conséquences.",
+      "answer_en": "To a place far enough away from the danger and its consequences.",
+      "answer_simple": "Dans un endroit loin du danger."
     }
   },
   {
@@ -315,17 +456,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez où s'effectue le contrôle du niveau du liquide de frein.",
-      "answer": "Le candidat montre que le niveau est entre le mini et le maxi. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder."
+      "answer": "Le candidat montre que le niveau est entre le mini et le maxi. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder.",
+      "answer_en": "The candidate shows that the level is between the minimum and maximum marks. If the candidate has difficulty opening the hood, the accompanying driver may indicate how to proceed.",
+      "answer_simple": "Le candidat montre que le niveau est entre le minimum et le maximum. Si c'est difficile d'ouvrir le capot (avant de la voiture), l'accompagnateur peut aider."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est la conséquence d'un niveau insuffisant du liquide de frein?",
-      "answer": "Une perte d'efficacité du freinage."
+      "answer": "Une perte d'efficacité du freinage.",
+      "answer_en": "Reduced braking effectiveness.",
+      "answer_simple": "Les freins marchent moins bien."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "En cas de panne ou d'accident, quel équipement de sécurité doit être porté avant de quitter le véhicule ?",
-      "answer": "Il faut porter le gilet de haute visibilité avant de sortir du véhicule. Le terme \"gilet jaune\" peut être utilisé par le candidat."
+      "answer": "Il faut porter le gilet de haute visibilité avant de sortir du véhicule. Le terme \"gilet jaune\" peut être utilisé par le candidat.",
+      "answer_en": "You must put on the high-visibility vest before exiting the vehicle. The term \"yellow vest\" may be used by the candidate.",
+      "answer_simple": "Il faut mettre le gilet jaune avant de sortir de la voiture."
     }
   },
   {
@@ -333,17 +480,23 @@
     "verification": {
       "type": "VI",
       "question": "Vérifiez la présence du certificat d'immatriculation du véhicule (ou carte grise).",
-      "answer": "Le candidat montre le document. La photocopie est acceptée."
+      "answer": "Le candidat montre le document. La photocopie est acceptée.",
+      "answer_en": "The candidate shows the document. A photocopy is accepted.",
+      "answer_simple": "Le candidat montre le papier. Une photocopie est acceptée."
     },
     "qser": {
       "type": "QSER",
       "question": "Quels sont les deux autres documents obligatoires à présenter en cas de contrôle par les forces de l'ordre ?",
-      "answer": "L'attestation d'assurance et le permis de conduire."
+      "answer": "L'attestation d'assurance et le permis de conduire.",
+      "answer_en": "The insurance certificate and the driving license.",
+      "answer_simple": "Le papier d'assurance et le permis de conduire."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Pourquoi l'alerte auprès des services de secours doit-elle être rapide et précise?",
-      "answer": "Pour permettre aux services de secours d'apporter les moyens adaptés aux victimes dans le délai le plus court."
+      "answer": "Pour permettre aux services de secours d'apporter les moyens adaptés aux victimes dans le délai le plus court.",
+      "answer_en": "To enable emergency services to provide appropriate resources to the victims as quickly as possible.",
+      "answer_simple": "Pour que les secours arrivent vite avec le bon matériel pour aider les victimes."
     }
   },
   {
@@ -351,17 +504,23 @@
     "verification": {
       "type": "VE",
       "question": "Contrôlez l'état de tous les balais d'essuie-glace du véhicule.",
-      "answer": "Le candidat vérifie l'état des balais. En bon état (toute anomalie doit être signalée)."
+      "answer": "Le candidat vérifie l'état des balais. En bon état (toute anomalie doit être signalée).",
+      "answer_en": "The candidate checks the condition of the wiper blades. In good condition (any defect must be reported).",
+      "answer_simple": "Le candidat vérifie les essuie-glaces. Ils sont en bon état. Si quelque chose ne va pas, il faut le dire."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel est le risque de circuler avec des balais d'essuie glace défectueux ?",
-      "answer": "Une mauvaise visibilité en cas d'intempéries."
+      "answer": "Une mauvaise visibilité en cas d'intempéries.",
+      "answer_en": "Poor visibility in bad weather conditions.",
+      "answer_simple": "On voit mal quand il pleut ou quand il neige."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels sont les numéros d'urgence à composer ?",
-      "answer": "- Le 18, numéro d'appel des sapeurs-pompiers.\n- Le 15, numéro d'appel des SAMU.\n- Le 112, numéro de téléphone réservé aux appels d'urgence et valide dans l'ensemble de l'Union Européenne."
+      "answer": "- Le 18, numéro d'appel des sapeurs-pompiers.\n- Le 15, numéro d'appel des SAMU.\n- Le 112, numéro de téléphone réservé aux appels d'urgence et valide dans l'ensemble de l'Union Européenne.",
+      "answer_en": "- 18, the fire department number.\n- 15, the emergency medical services (SAMU) number.\n- 112, the emergency number valid throughout the European Union.",
+      "answer_simple": "- Le 18 pour les pompiers.\n- Le 15 pour le SAMU (urgences médicales).\n- Le 112 pour les urgences dans toute l'Europe."
     }
   },
   {
@@ -369,17 +528,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez l'indicateur de niveau de carburant.",
-      "answer": "Le candidat montre l'indicateur sur le tableau de bord."
+      "answer": "Le candidat montre l'indicateur sur le tableau de bord.",
+      "answer_en": "The candidate shows the fuel gauge on the dashboard.",
+      "answer_simple": "Le candidat montre l'indicateur d'essence sur le tableau de bord."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelles sont les précautions à prendre lors du remplissage du réservoir?",
-      "answer": "Arrêter le moteur, ne pas fumer, ne pas téléphoner."
+      "answer": "Arrêter le moteur, ne pas fumer, ne pas téléphoner.",
+      "answer_en": "Turn off the engine, do not smoke, do not use a phone.",
+      "answer_simple": "Il faut éteindre le moteur, ne pas fumer et ne pas téléphoner."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels comportements adopter en présence d'une victime qui ne répond pas et ne réagit pas, mais respire?",
-      "answer": "- La placer en position stable sur le côté ou position latérale de sécurité.\n- Alerter les secours.\n- Surveiller la respiration de la victime jusqu'à l'arrivée des secours."
+      "answer": "- La placer en position stable sur le côté ou position latérale de sécurité.\n- Alerter les secours.\n- Surveiller la respiration de la victime jusqu'à l'arrivée des secours.",
+      "answer_en": "- Place them in a stable side position (recovery position).\n- Call emergency services.\n- Monitor the victim's breathing until help arrives.",
+      "answer_simple": "- Mettre la personne sur le côté (position sur le côté).\n- Appeler les secours.\n- Vérifier que la personne respire jusqu'à l'arrivée des secours."
     }
   },
   {
@@ -387,17 +552,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez où s'effectue le remplissage du liquide de refroidissement.",
-      "answer": "Le candidat ouvre le capot et montre le bocal. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder."
+      "answer": "Le candidat ouvre le capot et montre le bocal. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder.",
+      "answer_en": "The candidate opens the hood and shows the reservoir. If the candidate has difficulty opening the hood, the accompanying driver may indicate how to proceed.",
+      "answer_simple": "Le candidat ouvre le capot (avant de la voiture) et montre le réservoir. Si c'est difficile d'ouvrir le capot, l'accompagnateur peut aider."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel est le danger si l'on complète le niveau du liquide lorsque le moteur est chaud?",
-      "answer": "Un risque de brûlure."
+      "answer": "Un risque de brûlure.",
+      "answer_en": "A risk of burns.",
+      "answer_simple": "On peut se brûler."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment arrêter une hémorragie ?",
-      "answer": "En appuyant fortement sur l'endroit qui saigne avec les doigts ou avec la paume de la main en mettant un tissu propre sur la plaie."
+      "answer": "En appuyant fortement sur l'endroit qui saigne avec les doigts ou avec la paume de la main en mettant un tissu propre sur la plaie.",
+      "answer_en": "By pressing firmly on the bleeding area with your fingers or the palm of your hand, placing a clean cloth over the wound.",
+      "answer_simple": "Il faut appuyer fort sur l'endroit qui saigne avec les doigts ou la main. Il faut mettre un tissu propre sur la blessure."
     }
   },
   {
@@ -405,17 +576,23 @@
     "verification": {
       "type": "VI",
       "question": "Actionnez le dégivrage de la lunette arrière et montrez le voyant ou le repère correspondant.",
-      "answer": "L'action est effectuée par le candidat qui montre également le voyant."
+      "answer": "L'action est effectuée par le candidat qui montre également le voyant.",
+      "answer_en": "The action is performed by the candidate, who also shows the indicator light.",
+      "answer_simple": "Le candidat allume le dégivrage de la vitre arrière et montre le voyant."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle peut être la conséquence d'une panne de dégivrage de la lunette arrière ?",
-      "answer": "Une insuffisance ou une absence de visibilité vers l'arrière."
+      "answer": "Une insuffisance ou une absence de visibilité vers l'arrière.",
+      "answer_en": "Reduced or no visibility toward the rear.",
+      "answer_simple": "On ne voit pas bien ou pas du tout par la vitre arrière."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Hors autoroute ou endroit dangereux, en cas de panne ou d'accident, où doit être placé le triangle de pré-signalisation?",
-      "answer": "Le triangle de pré-signalisation doit être placé à une distance d'environ 30 m de la panne ou de l'accident, ou avant un virage, ou un sommet de côte."
+      "answer": "Le triangle de pré-signalisation doit être placé à une distance d'environ 30 m de la panne ou de l'accident, ou avant un virage, ou un sommet de côte.",
+      "answer_en": "The warning triangle must be placed approximately 30 meters from the breakdown or accident, or before a bend, or at the top of a hill.",
+      "answer_simple": "Le triangle de signalisation doit être placé à environ 30 mètres de la panne ou de l'accident, ou avant un virage ou en haut d'une côte."
     }
   },
   {
@@ -423,17 +600,23 @@
     "verification": {
       "type": "VE",
       "question": "Contrôlez l'état, la propreté et le fonctionnement de tous les clignotants côté trottoir.",
-      "answer": "Vérification des clignotants propres, en bon état et fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des clignotants propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check that the turn signals are clean, in good condition, and working (any defect must be reported).",
+      "answer_simple": "Les clignotants sont propres, en bon état et ils marchent. Si quelque chose ne va pas, il faut le dire."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est la signification d'un clignotement plus rapide ?",
-      "answer": "Non fonctionnement de l'une des ampoules."
+      "answer": "Non fonctionnement de l'une des ampoules.",
+      "answer_en": "One of the bulbs is not working.",
+      "answer_simple": "Une ampoule ne marche plus."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quelles sont les conditions pour réaliser le dégagement d'urgence d'une victime en présence d'un danger réel, immédiat et non contrôlable?",
-      "answer": "La victime doit être visible, facile à atteindre et rien ne doit gêner son dégagement. Il faut être sûr(e) de pouvoir réaliser le dégagement de la victime."
+      "answer": "La victime doit être visible, facile à atteindre et rien ne doit gêner son dégagement. Il faut être sûr(e) de pouvoir réaliser le dégagement de la victime.",
+      "answer_en": "The victim must be visible, easy to reach, and nothing must obstruct the extraction. You must be sure you can carry out the extraction of the victim.",
+      "answer_simple": "La victime doit être visible et facile à atteindre. Rien ne doit bloquer le passage. Il faut être sûr de pouvoir déplacer la victime."
     }
   },
   {
@@ -441,17 +624,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez le voyant d'alerte signalant une pression insuffisante d'huile dans le moteur.",
-      "answer": "Le candidat montre le voyant sur le tableau de bord."
+      "answer": "Le candidat montre le voyant sur le tableau de bord.",
+      "answer_en": "The candidate shows the warning light on the dashboard.",
+      "answer_simple": "Le candidat montre le voyant sur le tableau de bord."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelles sont les conditions à respecter pour contrôler le niveau d'huile ?",
-      "answer": "Moteur froid et sur un terrain plat."
+      "answer": "Moteur froid et sur un terrain plat.",
+      "answer_en": "The engine must be cold and the vehicle on level ground.",
+      "answer_simple": "Le moteur doit être froid et la voiture sur un terrain plat."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quelles sont les trois informations à transmettre aux services de secours?",
-      "answer": "Le numéro de téléphone à partir duquel l'appel est émis, la nature et la localisation la plus précise du problème."
+      "answer": "Le numéro de téléphone à partir duquel l'appel est émis, la nature et la localisation la plus précise du problème.",
+      "answer_en": "The phone number you are calling from, the nature of the problem, and the most precise location of the problem.",
+      "answer_simple": "Le numéro de téléphone utilisé pour appeler, ce qui se passe et l'endroit exact du problème."
     }
   },
   {
@@ -459,17 +648,23 @@
     "verification": {
       "type": "VE",
       "question": "Contrôlez l'état, la propreté et le fonctionnement du ou des feux de brouillard arrière.",
-      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check the lights are clean, in good condition, and working (any defect must be reported).",
+      "answer_simple": "Les feux de brouillard arrière sont propres, en bon état et ils marchent. Si quelque chose ne va pas, il faut le dire."
     },
     "qser": {
       "type": "QSER",
       "question": "Dans quels cas les utilise-t-on?",
-      "answer": "Par temps de brouillard et neige."
+      "answer": "Par temps de brouillard et neige.",
+      "answer_en": "In fog and snow conditions.",
+      "answer_simple": "Quand il y a du brouillard ou de la neige."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Par quels moyens doit être réalisée l'alerte des secours?",
-      "answer": "L'alerte doit être donnée à l'aide d'un téléphone portable ou, à défaut, d'un téléphone fixe ou d'une borne d'appel d'urgence."
+      "answer": "L'alerte doit être donnée à l'aide d'un téléphone portable ou, à défaut, d'un téléphone fixe ou d'une borne d'appel d'urgence.",
+      "answer_en": "The alert must be made using a mobile phone or, failing that, a landline phone or an emergency call box.",
+      "answer_simple": "Il faut appeler avec un téléphone portable. Si ce n'est pas possible, on utilise un téléphone fixe ou une borne d'urgence."
     }
   },
   {
@@ -477,17 +672,23 @@
     "verification": {
       "type": "VI",
       "question": "Vérifiez la présence de l'éthylotest.",
-      "answer": "Le candidat indique où se trouve l'éthylotest."
+      "answer": "Le candidat indique où se trouve l'éthylotest.",
+      "answer_en": "The candidate indicates where the breathalyzer is located.",
+      "answer_simple": "Le candidat montre où est le test d'alcool."
     },
     "qser": {
       "type": "QSER",
       "question": "A partir de quel taux d'alcoolémie, en période de permis probatoire, est-on en infraction?",
-      "answer": "0,2 g/l, c'est à dire 0 verre, car dès le 1er verre ce seuil peut être dépassé."
+      "answer": "0,2 g/l, c'est à dire 0 verre, car dès le 1er verre ce seuil peut être dépassé.",
+      "answer_en": "0.2 g/l, meaning zero drinks, because even one drink can exceed this threshold.",
+      "answer_simple": "0,2 g/l. Cela veut dire 0 verre d'alcool. Avec un seul verre, on peut dépasser cette limite."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quel comportement doit-on adopter en présence d'une victime en arrêt cardiaque ?",
-      "answer": "- ALERTER: alerter immédiatement les secours.\n- MASSER: pratiquer une réanimation cardio-pulmonaire.\n- DEFIBRILLER: utiliser un défibrillateur automatique (DAE) si possible."
+      "answer": "- ALERTER: alerter immédiatement les secours.\n- MASSER: pratiquer une réanimation cardio-pulmonaire.\n- DEFIBRILLER: utiliser un défibrillateur automatique (DAE) si possible.",
+      "answer_en": "- ALERT: immediately call emergency services.\n- COMPRESS: perform CPR (cardiopulmonary resuscitation).\n- DEFIBRILLATE: use an automated external defibrillator (AED) if available.",
+      "answer_simple": "- ALERTER : appeler les secours tout de suite.\n- MASSER : faire un massage cardiaque.\n- DÉFIBRILLER : utiliser un défibrillateur si possible."
     }
   },
   {
@@ -495,17 +696,23 @@
     "verification": {
       "type": "VE",
       "question": "Contrôlez l'état, la propreté et le fonctionnement des feux de détresse à l'avant et à l'arrière.",
-      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check the lights are clean, in good condition, and working (any defect must be reported).",
+      "answer_simple": "Les feux de détresse (les 4 clignotants) sont propres, en bon état et ils marchent. Si quelque chose ne va pas, il faut le dire."
     },
     "qser": {
       "type": "QSER",
       "question": "Dans quels cas doit-on les utiliser?",
-      "answer": "En cas de panne, d'accident ou de ralentissement important."
+      "answer": "En cas de panne, d'accident ou de ralentissement important.",
+      "answer_en": "In case of a breakdown, accident, or significant slowdown.",
+      "answer_simple": "Quand il y a une panne, un accident ou un ralentissement important."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Dans quel cas peut-on positionner une victime en Position Latérale de Sécurité?",
-      "answer": "Si la victime ne répond pas, ne réagit pas et respire."
+      "answer": "Si la victime ne répond pas, ne réagit pas et respire.",
+      "answer_en": "If the victim does not respond, does not react, and is breathing.",
+      "answer_simple": "Si la personne ne répond pas, ne bouge pas, mais elle respire."
     }
   },
   {
@@ -513,17 +720,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez la commande de réglage du volant.",
-      "answer": "Le candidat montre l'emplacement. Il ne lui est pas demandé de changer son réglage."
+      "answer": "Le candidat montre l'emplacement. Il ne lui est pas demandé de changer son réglage.",
+      "answer_en": "The candidate shows the location. They are not asked to change the adjustment.",
+      "answer_simple": "Le candidat montre où se trouve le réglage. On ne lui demande pas de le changer."
     },
     "qser": {
       "type": "QSER",
       "question": "Pourquoi est-il important de bien régler son volant ? Citez deux exemples.",
-      "answer": "- Le confort de conduite.\n- L'accessibilité aux commandes.\n- La visibilité du tableau de bord.\n- L'efficacité des airbags."
+      "answer": "- Le confort de conduite.\n- L'accessibilité aux commandes.\n- La visibilité du tableau de bord.\n- L'efficacité des airbags.",
+      "answer_en": "- Driving comfort.\n- Access to the controls.\n- Dashboard visibility.\n- Airbag effectiveness.",
+      "answer_simple": "- Pour être confortable en conduisant.\n- Pour bien atteindre les commandes.\n- Pour bien voir le tableau de bord.\n- Pour que les airbags marchent bien."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Dans quelle situation peut-on déplacer une victime?",
-      "answer": "En présence d'un danger réel, immédiat, non contrôlable. Le déplacement de la victime doit rester exceptionnel."
+      "answer": "En présence d'un danger réel, immédiat, non contrôlable. Le déplacement de la victime doit rester exceptionnel.",
+      "answer_en": "In the presence of a real, immediate, uncontrollable danger. Moving the victim should remain exceptional.",
+      "answer_simple": "Seulement si le danger est réel, immédiat et impossible à contrôler. On déplace une victime seulement si c'est vraiment nécessaire."
     }
   },
   {
@@ -531,17 +744,23 @@
     "verification": {
       "type": "VE",
       "question": "Contrôlez l'état, la propreté et le fonctionnement des feux de route.",
-      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check the lights are clean, in good condition, and working (any defect must be reported).",
+      "answer_simple": "Les feux de route (feux forts) sont propres, en bon état et ils marchent. Si quelque chose ne va pas, il faut le dire."
     },
     "qser": {
       "type": "QSER",
       "question": "Citez un cas d'utilisation de l'appel lumineux.",
-      "answer": "Pour avertir de son approche.\nEn cas de danger.\nA la place de l'avertisseur sonore."
+      "answer": "Pour avertir de son approche.\nEn cas de danger.\nA la place de l'avertisseur sonore.",
+      "answer_en": "To warn of your approach.\nIn case of danger.\nAs a substitute for the horn.",
+      "answer_simple": "Pour dire qu'on arrive.\nQuand il y a un danger.\nÀ la place du klaxon."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "En cas de panne ou d'accident, quel équipement de sécurité doit être porté avant de quitter le véhicule ?",
-      "answer": "Il faut porter le gilet de haute visibilité avant de sortir du véhicule. Le terme \"gilet jaune\" peut être utilisé par le candidat."
+      "answer": "Il faut porter le gilet de haute visibilité avant de sortir du véhicule. Le terme \"gilet jaune\" peut être utilisé par le candidat.",
+      "answer_en": "You must put on the high-visibility vest before exiting the vehicle. The term \"yellow vest\" may be used by the candidate.",
+      "answer_simple": "Il faut mettre le gilet jaune avant de sortir de la voiture."
     }
   },
   {
@@ -549,17 +768,23 @@
     "verification": {
       "type": "VI",
       "question": "Positionnez la commande pour diriger l'air vers le pare-brise.",
-      "answer": "L'action est effectuée par le candidat. La position auto (désembuage automatique) peut être utilisée si le véhicule en est équipé."
+      "answer": "L'action est effectuée par le candidat. La position auto (désembuage automatique) peut être utilisée si le véhicule en est équipé.",
+      "answer_en": "The action is performed by the candidate. The auto position (automatic defogging) can be used if the vehicle is equipped with it.",
+      "answer_simple": "Le candidat fait l'action. Le mode automatique peut être utilisé si la voiture l'a."
     },
     "qser": {
       "type": "QSER",
       "question": "Citez deux éléments complémentaires permettant un désembuage efficace.",
-      "answer": "- La commande de vitesse de ventilation.\n- La commande d'air chaud.\n- La climatisation."
+      "answer": "- La commande de vitesse de ventilation.\n- La commande d'air chaud.\n- La climatisation.",
+      "answer_en": "- The fan speed control.\n- The hot air control.\n- The air conditioning.",
+      "answer_simple": "- La vitesse du ventilateur.\n- L'air chaud.\n- La climatisation."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quel est l'objectif du Signal d'Alerte et d'Information des Populations (SAIP)?",
-      "answer": "Avertir la population d'un danger imminent ou qu'un événement grave est en train de se produire."
+      "answer": "Avertir la population d'un danger imminent ou qu'un événement grave est en train de se produire.",
+      "answer_en": "To warn the population of imminent danger or that a serious event is occurring.",
+      "answer_simple": "Il sert à prévenir les gens d'un danger ou d'un événement grave."
     }
   },
   {
@@ -567,17 +792,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez où doit s'effectuer le contrôle du niveau d'huile moteur.",
-      "answer": "Le candidat montre la jauge. Pas de manipulation exigée. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder."
+      "answer": "Le candidat montre la jauge. Pas de manipulation exigée. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder.",
+      "answer_en": "The candidate shows the dipstick. No manipulation is required. If the candidate has difficulty opening the hood, the accompanying driver may indicate how to proceed.",
+      "answer_simple": "Le candidat montre la jauge d'huile. Il n'a pas besoin de la toucher. Si c'est difficile d'ouvrir le capot (avant de la voiture), l'accompagnateur peut aider."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel est le principal risque d'un manque d'huile moteur ?",
-      "answer": "Un risque de détérioration ou de casse du moteur."
+      "answer": "Un risque de détérioration ou de casse du moteur.",
+      "answer_en": "A risk of engine damage or engine failure.",
+      "answer_simple": "Le moteur peut s'abîmer ou casser."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment est diffusée l'alerte émise par le Signal d'Alerte et d'Information aux Populations (SAIP)?",
-      "answer": "Grâce aux sirènes, aux médias tels que Radio France et France Télévision ou encore grâce à l'application SAIP."
+      "answer": "Grâce aux sirènes, aux médias tels que Radio France et France Télévision ou encore grâce à l'application SAIP.",
+      "answer_en": "Through sirens, media such as Radio France and France Télévision, or through the SAIP app.",
+      "answer_simple": "Par les sirènes, par la radio, par la télévision ou par l'application du système d'alerte."
     }
   },
   {
@@ -585,17 +816,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez le voyant d'alerte signalant un défaut de batterie.",
-      "answer": "Le candidat montre le voyant sur le tableau de bord."
+      "answer": "Le candidat montre le voyant sur le tableau de bord.",
+      "answer_en": "The candidate shows the warning light on the dashboard.",
+      "answer_simple": "Le candidat montre le voyant sur le tableau de bord."
     },
     "qser": {
       "type": "QSER",
       "question": "Qu'est-ce qui peut provoquer la décharge de la batterie, moteur éteint ?",
-      "answer": "Les feux ou accessoires électriques en fonctionnement."
+      "answer": "Les feux ou accessoires électriques en fonctionnement.",
+      "answer_en": "Lights or electrical accessories left on.",
+      "answer_simple": "Les feux ou les appareils électriques qui restent allumés."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "A partir de quel âge peut-on suivre une formation aux premiers secours?",
-      "answer": "A partir de 10 ans."
+      "answer": "A partir de 10 ans.",
+      "answer_en": "From the age of 10.",
+      "answer_simple": "À partir de 10 ans."
     }
   },
   {
@@ -603,17 +840,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez l'emplacement de la batterie du véhicule.",
-      "answer": "Le candidat montre la batterie. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder."
+      "answer": "Le candidat montre la batterie. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder.",
+      "answer_en": "The candidate shows the battery. If the candidate has difficulty opening the hood, the accompanying driver may indicate how to proceed.",
+      "answer_simple": "Le candidat montre la batterie. Si c'est difficile d'ouvrir le capot (avant de la voiture), l'accompagnateur peut aider."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est la solution en cas de panne de batterie pour démarrer le véhicule sans le déplacer ?",
-      "answer": "Brancher une deuxième batterie en parallèle (ou les \"+\" ensemble et les \"-\" ensemble) ou la remplacer."
+      "answer": "Brancher une deuxième batterie en parallèle (ou les \"+\" ensemble et les \"-\" ensemble) ou la remplacer.",
+      "answer_en": "Connect a second battery in parallel (positive to positive and negative to negative) or replace it.",
+      "answer_simple": "On peut brancher une deuxième batterie (les \"+\" ensemble et les \"-\" ensemble) ou changer la batterie."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Pourquoi faut-il pratiquer immédiatement une réanimation cardio-pulmonaire sur une victime en arrêt cardiaque ?",
-      "answer": "Car les lésions du cerveau surviennent dès les premières minutes."
+      "answer": "Car les lésions du cerveau surviennent dès les premières minutes.",
+      "answer_en": "Because brain damage occurs within the first few minutes.",
+      "answer_simple": "Parce que le cerveau peut être abîmé dès les premières minutes."
     }
   },
   {
@@ -621,17 +864,23 @@
     "verification": {
       "type": "VI",
       "question": "De quelle couleur est le voyant qui indique une défaillance du système de freinage?",
-      "answer": "Rouge."
+      "answer": "Rouge.",
+      "answer_en": "Red.",
+      "answer_simple": "Rouge."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel est le risque de circuler avec un frein de parking mal desserré?",
-      "answer": "Une dégradation du système de freinage."
+      "answer": "Une dégradation du système de freinage.",
+      "answer_en": "Damage to the braking system.",
+      "answer_simple": "Les freins peuvent s'abîmer."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Hors autoroute ou endroit dangereux, en cas de panne ou d'accident, où doit être placé le triangle de pré-signalisation?",
-      "answer": "Le triangle de pré-signalisation doit être placé à une distance d'environ 30 m de la panne ou de l'accident, ou avant un virage, ou un sommet de côte."
+      "answer": "Le triangle de pré-signalisation doit être placé à une distance d'environ 30 m de la panne ou de l'accident, ou avant un virage, ou un sommet de côte.",
+      "answer_en": "The warning triangle must be placed approximately 30 meters from the breakdown or accident, or before a bend, or at the top of a hill.",
+      "answer_simple": "Le triangle de signalisation doit être placé à environ 30 mètres de la panne ou de l'accident, ou avant un virage ou en haut d'une côte."
     }
   },
   {
@@ -639,17 +888,23 @@
     "verification": {
       "type": "VE",
       "question": "Contrôlez l'état, la propreté et le fonctionnement des feux de croisement.",
-      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check the lights are clean, in good condition, and working (any defect must be reported).",
+      "answer_simple": "Les feux de croisement (feux normaux) sont propres, en bon état et ils marchent. Si quelque chose ne va pas, il faut le dire."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelles sont les conséquences d'un mauvais réglage de ces feux ?",
-      "answer": "Une mauvaise vision vers l'avant et un risque d'éblouissement des autres usagers."
+      "answer": "Une mauvaise vision vers l'avant et un risque d'éblouissement des autres usagers.",
+      "answer_en": "Poor forward visibility and a risk of dazzling other road users.",
+      "answer_simple": "On voit mal devant et on peut gêner avec la lumière les autres personnes sur la route."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Dans quelle situation peut-on déplacer une victime?",
-      "answer": "En présence d'un danger réel, immédiat, non contrôlable. Le déplacement de la victime doit rester exceptionnel."
+      "answer": "En présence d'un danger réel, immédiat, non contrôlable. Le déplacement de la victime doit rester exceptionnel.",
+      "answer_en": "In the presence of a real, immediate, uncontrollable danger. Moving the victim should remain exceptional.",
+      "answer_simple": "Seulement si le danger est réel, immédiat et impossible à contrôler. On déplace une victime seulement si c'est vraiment nécessaire."
     }
   },
   {
@@ -657,17 +912,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez le voyant d'alerte signalant une température trop élevée du liquide de refroidissement.",
-      "answer": "Le candidat montre le voyant sur le tableau de bord."
+      "answer": "Le candidat montre le voyant sur le tableau de bord.",
+      "answer_en": "The candidate shows the warning light on the dashboard.",
+      "answer_simple": "Le candidat montre le voyant sur le tableau de bord."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est la conséquence d'une température trop élevée de ce liquide ?",
-      "answer": "Une surchauffe ou une casse moteur."
+      "answer": "Une surchauffe ou une casse moteur.",
+      "answer_en": "Engine overheating or engine failure.",
+      "answer_simple": "Le moteur chauffe trop et peut casser."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Lors d'un appel avec les services de secours, pourquoi devez-vous attendre que votre correspondant vous autorise à raccrocher?",
-      "answer": "Car il peut nous conseiller ou nous guider dans la réalisation des gestes à faire, ou ne pas faire, jusqu'à l'arrivée des secours."
+      "answer": "Car il peut nous conseiller ou nous guider dans la réalisation des gestes à faire, ou ne pas faire, jusqu'à l'arrivée des secours.",
+      "answer_en": "Because they may advise or guide you on what to do, or not do, until help arrives.",
+      "answer_simple": "Parce que la personne au téléphone peut nous dire quoi faire ou ne pas faire en attendant les secours."
     }
   },
   {
@@ -675,17 +936,23 @@
     "verification": {
       "type": "VE",
       "question": "Vérifiez l'état et la propreté des dispositifs réfléchissants.",
-      "answer": "Vérification des dispositifs, propres et en bon état (toute anomalie doit être signalée)."
+      "answer": "Vérification des dispositifs, propres et en bon état (toute anomalie doit être signalée).",
+      "answer_en": "Check the devices are clean and in good condition (any defect must be reported).",
+      "answer_simple": "Les réflecteurs sont propres et en bon état. Si quelque chose ne va pas, il faut le dire."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est l'utilité des dispositifs réfléchissants?",
-      "answer": "Rendre visible le véhicule la nuit."
+      "answer": "Rendre visible le véhicule la nuit.",
+      "answer_en": "To make the vehicle visible at night.",
+      "answer_simple": "Pour que la voiture soit visible la nuit."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "A quel moment pouvez-vous mettre fin à un appel avec les secours?",
-      "answer": "Uniquement lorsque notre correspondant nous invite à le faire."
+      "answer": "Uniquement lorsque notre correspondant nous invite à le faire.",
+      "answer_en": "Only when the operator tells you to hang up.",
+      "answer_simple": "Seulement quand la personne au téléphone nous dit de raccrocher."
     }
   },
   {
@@ -693,17 +960,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez le voyant signalant la mauvaise fermeture d'une portière.",
-      "answer": "Le candidat montre le voyant sur le tableau de bord."
+      "answer": "Le candidat montre le voyant sur le tableau de bord.",
+      "answer_en": "The candidate shows the warning light on the dashboard.",
+      "answer_simple": "Le candidat montre le voyant sur le tableau de bord."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle précaution dois-je prendre pour que les enfants installés à l'arrière ne puissent pas ouvrir leur portière ?",
-      "answer": "Actionner la sécurité enfant sur les deux portières arrière."
+      "answer": "Actionner la sécurité enfant sur les deux portières arrière.",
+      "answer_en": "Activate the child safety lock on both rear doors.",
+      "answer_simple": "Il faut mettre la sécurité enfant sur les deux portières arrière."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Citez les trois manières d'évaluer l'état de conscience d'une victime.",
-      "answer": "- Lui poser des questions simples (\"comment ça va?\", \"vous m'entendez ?\").\n- Lui secouer doucement les épaules.\n- Lui prendre la main en lui demandant d'exécuter un geste simple (\"serrez-moi la main\")."
+      "answer": "- Lui poser des questions simples (\"comment ça va?\", \"vous m'entendez ?\").\n- Lui secouer doucement les épaules.\n- Lui prendre la main en lui demandant d'exécuter un geste simple (\"serrez-moi la main\").",
+      "answer_en": "- Ask simple questions (\"Are you okay?\", \"Can you hear me?\").\n- Gently shake their shoulders.\n- Take their hand and ask them to perform a simple action (\"Squeeze my hand\").",
+      "answer_simple": "- Poser des questions simples (\"ça va ?\", \"vous m'entendez ?\").\n- Secouer doucement les épaules.\n- Prendre la main et demander un geste simple (\"serrez ma main\")."
     }
   },
   {
@@ -711,17 +984,23 @@
     "verification": {
       "type": "VE",
       "question": "Contrôlez l'état, la propreté et le fonctionnement des feux de position à l'avant et à l'arrière du véhicule.",
-      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check the lights are clean, in good condition, and working (any defect must be reported).",
+      "answer_simple": "Les petits feux sont propres, en bon état et ils marchent. Si quelque chose ne va pas, il faut le dire."
     },
     "qser": {
       "type": "QSER",
       "question": "Par temps clair, à quelle distance doivent-ils être visibles?",
-      "answer": "A 150 mètres."
+      "answer": "A 150 mètres.",
+      "answer_en": "At 150 meters.",
+      "answer_simple": "À 150 mètres."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels sont les risques pour une personne en perte de connaissance qui est allongée sur le dos ?",
-      "answer": "L'arrêt respiratoire et l'arrêt cardiaque."
+      "answer": "L'arrêt respiratoire et l'arrêt cardiaque.",
+      "answer_en": "Respiratory arrest and cardiac arrest.",
+      "answer_simple": "La personne peut arrêter de respirer et le coeur peut s'arrêter."
     }
   },
   {
@@ -729,17 +1008,23 @@
     "verification": {
       "type": "VI",
       "question": "Actionnez les feux de détresse.",
-      "answer": "L'action est effectuée par le candidat."
+      "answer": "L'action est effectuée par le candidat.",
+      "answer_en": "The action is performed by the candidate.",
+      "answer_simple": "Le candidat fait l'action."
     },
     "qser": {
       "type": "QSER",
       "question": "Quand les utilise-t-on?",
-      "answer": "En cas de panne, d'accident ou de ralentissement important."
+      "answer": "En cas de panne, d'accident ou de ralentissement important.",
+      "answer_en": "In case of a breakdown, accident, or significant slowdown.",
+      "answer_simple": "Quand il y a une panne, un accident ou un ralentissement important."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels comportements adopter en cas de diffusion du signal d'alerte du Système d'Alerte et d'Information des Populations (SAIP)?",
-      "answer": "- Se mettre en sécurité.\n- S'informer grâce aux médias et sites internet des autorités dès que leur consultation est possible.\n- Respecter les consignes des autorités."
+      "answer": "- Se mettre en sécurité.\n- S'informer grâce aux médias et sites internet des autorités dès que leur consultation est possible.\n- Respecter les consignes des autorités.",
+      "answer_en": "- Get to safety.\n- Get information from the media and official authority websites as soon as possible.\n- Follow the instructions of the authorities.",
+      "answer_simple": "- Se mettre en sécurité.\n- Chercher des informations à la radio, à la télévision ou sur internet.\n- Faire ce que les autorités demandent."
     }
   },
   {
@@ -747,17 +1032,23 @@
     "verification": {
       "type": "VE",
       "question": "Sur le flanc d'un pneumatique, désignez le repère du témoin d'usure de la bande de roulement.",
-      "answer": "Le candidat montre le repère (souvent TWI ou un symbole)."
+      "answer": "Le candidat montre le repère (souvent TWI ou un symbole).",
+      "answer_en": "The candidate shows the wear indicator marker (often TWI or a symbol).",
+      "answer_simple": "Le candidat montre le repère d'usure sur le pneu (souvent marqué TWI ou un symbole)."
     },
     "qser": {
       "type": "QSER",
       "question": "Qu'est-ce que l'aquaplanage, et quelle peut être sa conséquence?",
-      "answer": "La présence d'un film d'eau entre le pneumatique et la chaussée pouvant entraîner une perte de contrôle du véhicule."
+      "answer": "La présence d'un film d'eau entre le pneumatique et la chaussée pouvant entraîner une perte de contrôle du véhicule.",
+      "answer_en": "The presence of a layer of water between the tire and the road surface, which can cause a loss of vehicle control.",
+      "answer_simple": "C'est quand il y a de l'eau entre le pneu et la route. La voiture peut devenir impossible à contrôler."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Si un dégagement d'urgence de la victime est nécessaire, où doit-elle être déplacée ?",
-      "answer": "Dans un endroit suffisamment éloigné du danger et de ses conséquences."
+      "answer": "Dans un endroit suffisamment éloigné du danger et de ses conséquences.",
+      "answer_en": "To a place far enough away from the danger and its consequences.",
+      "answer_simple": "Dans un endroit loin du danger."
     }
   },
   {
@@ -765,17 +1056,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez la commande permettant d'actionner le régulateur de vitesse.",
-      "answer": "Le candidat montre la commande."
+      "answer": "Le candidat montre la commande.",
+      "answer_en": "The candidate shows the control.",
+      "answer_simple": "Le candidat montre le bouton."
     },
     "qser": {
       "type": "QSER",
       "question": "Sans actionner la commande du régulateur, comment le désactiver rapidement ?",
-      "answer": "En appuyant sur la pédale de frein ou d'embrayage."
+      "answer": "En appuyant sur la pédale de frein ou d'embrayage.",
+      "answer_en": "By pressing the brake pedal or the clutch pedal.",
+      "answer_simple": "En appuyant sur la pédale de frein ou d'embrayage."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Sur autoroute, comment indiquer avec précision les lieux de l'accident depuis un téléphone portable?",
-      "answer": "En indiquant le numéro de l'autoroute, le sens de circulation et le point kilométrique."
+      "answer": "En indiquant le numéro de l'autoroute, le sens de circulation et le point kilométrique.",
+      "answer_en": "By providing the highway number, the direction of travel, and the kilometer marker.",
+      "answer_simple": "Il faut donner le numéro de l'autoroute, la direction et le point kilométrique."
     }
   },
   {
@@ -783,17 +1080,23 @@
     "verification": {
       "type": "VE",
       "question": "Ouvrez la trappe à carburant et/ou vérifiez la bonne fermeture du bouchon.",
-      "answer": "L'action est effectuée par le candidat."
+      "answer": "L'action est effectuée par le candidat.",
+      "answer_en": "The action is performed by the candidate.",
+      "answer_simple": "Le candidat fait l'action."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelles sont les précautions à prendre lors du remplissage du réservoir?",
-      "answer": "Arrêter le moteur, ne pas fumer, ne pas téléphoner."
+      "answer": "Arrêter le moteur, ne pas fumer, ne pas téléphoner.",
+      "answer_en": "Turn off the engine, do not smoke, do not use your phone.",
+      "answer_simple": "Il faut éteindre le moteur, ne pas fumer et ne pas téléphoner."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Pourquoi l'alerte auprès des services de secours doit-elle être rapide et précise?",
-      "answer": "Pour permettre aux services de secours d'apporter les moyens adaptés aux victimes dans le délai le plus court."
+      "answer": "Pour permettre aux services de secours d'apporter les moyens adaptés aux victimes dans le délai le plus court.",
+      "answer_en": "To allow emergency services to provide the appropriate resources to the victims as quickly as possible.",
+      "answer_simple": "Pour que les secours arrivent vite avec le bon matériel pour aider les victimes."
     }
   },
   {
@@ -801,17 +1104,23 @@
     "verification": {
       "type": "VI",
       "question": "Sans l'actionner, montrez la commande de l'avertisseur sonore.",
-      "answer": "Le candidat montre la commande."
+      "answer": "Le candidat montre la commande.",
+      "answer_en": "The candidate shows the control.",
+      "answer_simple": "Le candidat montre le bouton."
     },
     "qser": {
       "type": "QSER",
       "question": "Dans quel cas peut-on utiliser l'avertisseur sonore en agglomération?",
-      "answer": "En cas de danger immédiat."
+      "answer": "En cas de danger immédiat.",
+      "answer_en": "Only in case of immediate danger.",
+      "answer_simple": "Seulement quand il y a un danger immédiat."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Pourquoi ne faut-il pas laisser une personne en perte de connaissance allongée sur le dos?",
-      "answer": "Car elle risque un étouffement par:\n- Des liquides présents dans la gorge.\n- La chute de la langue en arrière."
+      "answer": "Car elle risque un étouffement par:\n- Des liquides présents dans la gorge.\n- La chute de la langue en arrière.",
+      "answer_en": "Because she risks choking from:\n- Liquids present in the throat.\n- The tongue falling back and blocking the airway.",
+      "answer_simple": "Parce qu'elle peut s'étouffer à cause de :\n- Des liquides dans la gorge.\n- La langue qui tombe en arrière."
     }
   },
   {
@@ -819,17 +1128,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez où s'effectue le remplissage de l'huile moteur.",
-      "answer": "Le candidat montre le bouchon de remplissage. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder."
+      "answer": "Le candidat montre le bouchon de remplissage. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder.",
+      "answer_en": "The candidate shows the oil filler cap. If the candidate has difficulty opening the hood, the accompanying driver may show them how to proceed.",
+      "answer_simple": "Le candidat montre le bouchon pour mettre l'huile. Si le candidat ne peut pas ouvrir le capot (avant de la voiture), l'accompagnateur peut l'aider."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel est le risque d'un manque d'huile moteur?",
-      "answer": "Un risque de détérioration ou de casse du moteur."
+      "answer": "Un risque de détérioration ou de casse du moteur.",
+      "answer_en": "A risk of engine damage or engine failure.",
+      "answer_simple": "Le moteur peut s'abîmer ou casser."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "L'utilisation d'un Défibrillateur Automatisé (DAE) sur une victime qui n'est pas en arrêt cardiaque présente-t-elle un risque ?",
-      "answer": "Non, car le défibrillateur se déclenche uniquement quand la victime est en arrêt cardiaque."
+      "answer": "Non, car le défibrillateur se déclenche uniquement quand la victime est en arrêt cardiaque.",
+      "answer_en": "No, because the automated external defibrillator (AED) only activates when the victim is in cardiac arrest.",
+      "answer_simple": "Non, car le défibrillateur fonctionne seulement quand le coeur de la victime est arrêté."
     }
   },
   {
@@ -837,17 +1152,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez la commande permettant de désactiver l'airbag du passager avant.",
-      "answer": "Le candidat montre la commande (souvent un interrupteur à clé)."
+      "answer": "Le candidat montre la commande (souvent un interrupteur à clé).",
+      "answer_en": "The candidate shows the control (often a key-operated switch).",
+      "answer_simple": "Le candidat montre le bouton (souvent avec une clé)."
     },
     "qser": {
       "type": "QSER",
       "question": "Dans quelle situation doit-on le désactiver ?",
-      "answer": "Lors du transport d'un enfant à l'avant dans un siège auto, dos à la route."
+      "answer": "Lors du transport d'un enfant à l'avant dans un siège auto, dos à la route.",
+      "answer_en": "When carrying a child in the front seat in a rear-facing car seat.",
+      "answer_simple": "Quand un enfant est à l'avant dans un siège auto, le dos vers la route."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quelles sont les conditions pour réaliser le dégagement d'urgence d'une victime en présence d'un danger réel, immédiat et non contrôlable?",
-      "answer": "La victime doit être visible, facile à atteindre et rien ne doit gêner son dégagement. Il faut être sûr(e) de pouvoir réaliser le dégagement de la victime."
+      "answer": "La victime doit être visible, facile à atteindre et rien ne doit gêner son dégagement. Il faut être sûr(e) de pouvoir réaliser le dégagement de la victime.",
+      "answer_en": "The victim must be visible, easy to reach, and nothing must hinder their removal. You must be sure you can safely carry out the victim's extraction.",
+      "answer_simple": "La victime doit être visible et facile à atteindre. Rien ne doit gêner pour la déplacer. Il faut être sûr de pouvoir le faire."
     }
   },
   {
@@ -855,17 +1176,23 @@
     "verification": {
       "type": "VE",
       "question": "A l'aide de la plaque indicative, donnez la pression préconisée pour les pneumatiques arrières, véhicule chargé.",
-      "answer": "Le candidat trouve l'information sur la plaque/étiquette et l'énonce."
+      "answer": "Le candidat trouve l'information sur la plaque/étiquette et l'énonce.",
+      "answer_en": "The candidate finds the information on the plate/label and states it.",
+      "answer_simple": "Le candidat lit l'information sur l'étiquette et la dit."
     },
     "qser": {
       "type": "QSER",
       "question": "A quelle fréquence est-il préconisé de vérifier la pression des pneus ?",
-      "answer": "Chaque mois, pour une utilisation normale de son véhicule, et avant chaque long trajet."
+      "answer": "Chaque mois, pour une utilisation normale de son véhicule, et avant chaque long trajet.",
+      "answer_en": "Every month for normal vehicle use, and before every long trip.",
+      "answer_simple": "Tous les mois en utilisation normale, et avant chaque long voyage."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment et pourquoi protéger une zone de danger en cas d'accident de la route?",
-      "answer": "En délimitant clairement et largement la zone de danger de façon visible pour protéger les victimes et éviter un sur-accident."
+      "answer": "En délimitant clairement et largement la zone de danger de façon visible pour protéger les victimes et éviter un sur-accident.",
+      "answer_en": "By clearly and widely marking the danger zone in a visible way to protect victims and prevent a secondary accident.",
+      "answer_simple": "Il faut marquer la zone de danger de façon visible, assez loin, pour protéger les victimes et éviter un autre accident."
     }
   },
   {
@@ -873,17 +1200,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez le voyant signalant l'absence de bouclage de la ceinture de sécurité du conducteur.",
-      "answer": "Le candidat montre le voyant sur le tableau de bord."
+      "answer": "Le candidat montre le voyant sur le tableau de bord.",
+      "answer_en": "The candidate shows the warning light on the dashboard.",
+      "answer_simple": "Le candidat montre le voyant sur le tableau de bord."
     },
     "qser": {
       "type": "QSER",
       "question": "En règle générale, à partir de quel âge un enfant peut-il être installé sur le siège passager avant du véhicule ?",
-      "answer": "10 ans."
+      "answer": "10 ans.",
+      "answer_en": "10 years old.",
+      "answer_simple": "10 ans."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment est composé le signal d'alerte du Système d'Alerte et d'Information des Populations (SAIP) diffusé par les sirènes ?",
-      "answer": "Il se compose de deux codes distincts:\n- Le Signal National d'Alerte (SNA), variation du signal sur trois cycles successifs.\n- Le signal de fin d'alerte, signal continu."
+      "answer": "Il se compose de deux codes distincts:\n- Le Signal National d'Alerte (SNA), variation du signal sur trois cycles successifs.\n- Le signal de fin d'alerte, signal continu.",
+      "answer_en": "It consists of two distinct codes:\n- The National Alert Signal (SNA), a variation of the signal over three successive cycles.\n- The end-of-alert signal, a continuous tone.",
+      "answer_simple": "Il y a deux sons différents :\n- Le signal d'alerte : le son change 3 fois de suite.\n- Le signal de fin d'alerte : un son continu."
     }
   },
   {
@@ -891,17 +1224,23 @@
     "verification": {
       "type": "VE",
       "question": "Vérifiez le fonctionnement de l'éclairage de la plaque d'immatriculation à l'arrière.",
-      "answer": "Le candidat vérifie. Toute anomalie doit être signalée."
+      "answer": "Le candidat vérifie. Toute anomalie doit être signalée.",
+      "answer_en": "The candidate checks. Any anomaly must be reported.",
+      "answer_simple": "Le candidat vérifie. Il faut signaler tout problème."
     },
     "qser": {
       "type": "QSER",
       "question": "Un défaut d'éclairage de la plaque lors du contrôle technique entraîne-t-il une contre-visite?",
-      "answer": "Oui."
+      "answer": "Oui.",
+      "answer_en": "Yes.",
+      "answer_simple": "Oui."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quelles sont les trois informations à transmettre aux services de secours?",
-      "answer": "Le numéro de téléphone à partir duquel l'appel est émis, la nature et la localisation la plus précise du problème."
+      "answer": "Le numéro de téléphone à partir duquel l'appel est émis, la nature et la localisation la plus précise du problème.",
+      "answer_en": "The phone number from which the call is being made, the nature of the problem, and the most precise location of the incident.",
+      "answer_simple": "Le numéro de téléphone utilisé pour appeler, ce qui se passe, et l'endroit exact du problème."
     }
   },
   {
@@ -909,17 +1248,23 @@
     "verification": {
       "type": "VI",
       "question": "Vérifiez la présence de l'attestation d'assurance du véhicule et de sa vignette sur le pare-brise.",
-      "answer": "Le candidat montre les documents/la vignette."
+      "answer": "Le candidat montre les documents/la vignette.",
+      "answer_en": "The candidate shows the documents/sticker.",
+      "answer_simple": "Le candidat montre les papiers et la vignette."
     },
     "qser": {
       "type": "QSER",
       "question": "Quels sont les deux autres documents obligatoires à présenter en cas de contrôle par les forces de l'ordre ?",
-      "answer": "Le certificat d'immatriculation et le permis de conduire. Le terme « carte grise » est accepté."
+      "answer": "Le certificat d'immatriculation et le permis de conduire. Le terme « carte grise » est accepté.",
+      "answer_en": "The vehicle registration certificate and the driving license. The term 'carte grise' (grey card) is accepted.",
+      "answer_simple": "La carte grise et le permis de conduire."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Qu'est ce qu'une hémorragie?",
-      "answer": "C'est une perte de sang prolongée qui ne s'arrête pas. Elle imbibe de sang un mouchoir en quelques secondes."
+      "answer": "C'est une perte de sang prolongée qui ne s'arrête pas. Elle imbibe de sang un mouchoir en quelques secondes.",
+      "answer_en": "It is a prolonged loss of blood that does not stop. It soaks a handkerchief with blood in a few seconds.",
+      "answer_simple": "C'est un saignement important qui ne s'arrête pas. Un mouchoir est plein de sang en quelques secondes."
     }
   },
   {
@@ -927,17 +1272,23 @@
     "verification": {
       "type": "VE",
       "question": "Indiquez où se situe la sécurité enfant sur l'une des portières à l'arrière du véhicule.",
-      "answer": "Le candidat montre le dispositif sur une portière arrière."
+      "answer": "Le candidat montre le dispositif sur une portière arrière.",
+      "answer_en": "The candidate shows the child safety lock on one of the rear doors.",
+      "answer_simple": "Le candidat montre la sécurité enfant sur une porte arrière."
     },
     "qser": {
       "type": "QSER",
       "question": "Si la sécurité enfant est enclenchée, est-il possible d'ouvrir la portière arrière depuis l'extérieur?",
-      "answer": "Oui."
+      "answer": "Oui.",
+      "answer_en": "Yes.",
+      "answer_simple": "Oui."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels sont les risques pour une personne victime d'une hémorragie ?",
-      "answer": "Entraîner pour la victime une détresse circulatoire ou un arrêt cardiaque."
+      "answer": "Entraîner pour la victime une détresse circulatoire ou un arrêt cardiaque.",
+      "answer_en": "It can cause circulatory distress or cardiac arrest for the victim.",
+      "answer_simple": "La victime peut avoir un problème de circulation du sang ou un arrêt du coeur."
     }
   },
   {
@@ -945,17 +1296,23 @@
     "verification": {
       "type": "VI",
       "question": "Allumez le(s) feu(x) de brouillard arrière(s) et montrez le voyant correspondant.",
-      "answer": "L'action est effectuée par le candidat qui montre également le voyant."
+      "answer": "L'action est effectuée par le candidat qui montre également le voyant.",
+      "answer_en": "The action is performed by the candidate, who also shows the indicator light.",
+      "answer_simple": "Le candidat allume les feux de brouillard arrière et montre le voyant."
     },
     "qser": {
       "type": "QSER",
       "question": "Pouvez-vous les utiliser par forte pluie?",
-      "answer": "Non."
+      "answer": "Non.",
+      "answer_en": "No.",
+      "answer_simple": "Non."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels sont les signes d'un arrêt cardiaque?",
-      "answer": "La victime ne répond pas, ne réagit pas et ne respire pas ou présente une respiration anormale."
+      "answer": "La victime ne répond pas, ne réagit pas et ne respire pas ou présente une respiration anormale.",
+      "answer_en": "The victim does not respond, does not react, and does not breathe or has abnormal breathing.",
+      "answer_simple": "La victime ne répond pas, ne réagit pas, et ne respire pas ou respire de façon anormale."
     }
   },
   {
@@ -963,17 +1320,23 @@
     "verification": {
       "type": "VE",
       "question": "Avec l'assistance de l'accompagnateur, contrôlez l'état, la propreté et le fonctionnement du ou des feux de recul.",
-      "answer": "Vérification des feux, propres, en bon état et qui fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des feux, propres, en bon état et qui fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check that the reverse lights are clean, in good condition and working (any anomaly must be reported).",
+      "answer_simple": "Les feux de recul doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelles sont leurs deux utilités ?",
-      "answer": "- Éclairer la zone de recul la nuit.\n- Avertir les autres usagers de la manœuvre."
+      "answer": "- Éclairer la zone de recul la nuit.\n- Avertir les autres usagers de la manœuvre.",
+      "answer_en": "- To illuminate the reversing area at night.\n- To warn other road users of the maneuver.",
+      "answer_simple": "- Éclairer derrière la voiture la nuit.\n- Prévenir les autres personnes sur la route de la marche arrière."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Qu'est ce qu'un défibrillateur automatisé externe (DAE)?",
-      "answer": "C'est un appareil qui peut permettre de rétablir une activité cardiaque normale à une victime en arrêt cardiaque."
+      "answer": "C'est un appareil qui peut permettre de rétablir une activité cardiaque normale à une victime en arrêt cardiaque.",
+      "answer_en": "It is a device that can restore normal cardiac activity to a victim in cardiac arrest.",
+      "answer_simple": "C'est un appareil qui peut faire repartir le coeur d'une victime en arrêt cardiaque."
     }
   },
   {
@@ -981,17 +1344,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez comment régler la hauteur de l'appui-tête du siège conducteur.",
-      "answer": "Le candidat montre le mécanisme de réglage."
+      "answer": "Le candidat montre le mécanisme de réglage.",
+      "answer_en": "The candidate shows the adjustment mechanism.",
+      "answer_simple": "Le candidat montre comment régler l'appui-tête."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est son utilité ?",
-      "answer": "Permet de retenir le mouvement de la tête en cas de choc et de limiter les blessures."
+      "answer": "Permet de retenir le mouvement de la tête en cas de choc et de limiter les blessures.",
+      "answer_en": "It holds the head in case of impact and limits injuries.",
+      "answer_simple": "Il retient la tête en cas de choc et réduit les blessures."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Par quels moyens doit être réalisée l'alerte des secours?",
-      "answer": "L'alerte doit être donnée à l'aide d'un téléphone portable ou, à défaut, d'un téléphone fixe, ou d'une borne d'appel d'urgence."
+      "answer": "L'alerte doit être donnée à l'aide d'un téléphone portable ou, à défaut, d'un téléphone fixe, ou d'une borne d'appel d'urgence.",
+      "answer_en": "The alert must be given using a mobile phone or, failing that, a landline phone, or an emergency call box.",
+      "answer_simple": "Il faut appeler avec un téléphone portable, ou un téléphone fixe, ou une borne d'appel d'urgence."
     }
   },
   {
@@ -999,17 +1368,23 @@
     "verification": {
       "type": "VE",
       "question": "Avec l'assistance de l'accompagnateur, contrôlez l'état, la propreté et le fonctionnement des feux de stop.",
-      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check that the brake lights are clean, in good condition and working (any anomaly must be reported).",
+      "answer_simple": "Les feux de stop doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est la conséquence en cas de panne des feux de stop ?",
-      "answer": "Un manque d'information pour les usagers suiveurs et un risque de collision."
+      "answer": "Un manque d'information pour les usagers suiveurs et un risque de collision.",
+      "answer_en": "A lack of information for following road users and a risk of collision.",
+      "answer_simple": "Les voitures derrière ne savent pas qu'on freine, et il y a un risque d'accident."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Lors d'un appel avec les services de secours, pourquoi devez-vous attendre que votre correspondant vous autorise à raccrocher?",
-      "answer": "Car il peut nous conseiller ou nous guider dans la réalisation des gestes à faire, ou ne pas faire, jusqu'à l'arrivée des secours."
+      "answer": "Car il peut nous conseiller ou nous guider dans la réalisation des gestes à faire, ou ne pas faire, jusqu'à l'arrivée des secours.",
+      "answer_en": "Because they may advise or guide you on what to do or not do until the emergency services arrive.",
+      "answer_simple": "Parce qu'il peut nous dire quoi faire ou ne pas faire en attendant les secours."
     }
   },
   {
@@ -1017,17 +1392,23 @@
     "verification": {
       "type": "VI",
       "question": "De quelle couleur est le voyant qui indique au conducteur que le feu de brouillard arrière est allumé ?",
-      "answer": "Orange."
+      "answer": "Orange.",
+      "answer_en": "Orange.",
+      "answer_simple": "Orange."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est la différence entre un voyant orange et un voyant rouge?",
-      "answer": "- Rouge: Une anomalie de fonctionnement ou un danger.\n- Orange: un élément important."
+      "answer": "- Rouge: Une anomalie de fonctionnement ou un danger.\n- Orange: un élément important.",
+      "answer_en": "- Red: A malfunction or danger.\n- Orange: An important alert.",
+      "answer_simple": "- Rouge : un problème grave ou un danger.\n- Orange : quelque chose d'important à vérifier."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Qu'est ce qu'un arrêt cardiaque ?",
-      "answer": "Le cœur ne fonctionne plus ou fonctionne d'une façon anarchique."
+      "answer": "Le cœur ne fonctionne plus ou fonctionne d'une façon anarchique.",
+      "answer_en": "The heart has stopped working or is functioning erratically.",
+      "answer_simple": "Le coeur ne marche plus ou bat de façon désordonnée."
     }
   },
   {
@@ -1035,17 +1416,23 @@
     "verification": {
       "type": "VE",
       "question": "Ouvrez et refermez le capot, puis vérifiez sa bonne fermeture.",
-      "answer": "L'action est effectuée par le candidat."
+      "answer": "L'action est effectuée par le candidat.",
+      "answer_en": "The action is performed by the candidate.",
+      "answer_simple": "Le candidat fait l'action."
     },
     "qser": {
       "type": "QSER",
       "question": "En roulant, quel est le risque d'une mauvaise fermeture du capot ?",
-      "answer": "Un risque d'ouverture du capot pouvant entraîner un accident."
+      "answer": "Un risque d'ouverture du capot pouvant entraîner un accident.",
+      "answer_en": "A risk of the hood opening while driving, which could cause an accident.",
+      "answer_simple": "Le capot (avant de la voiture) peut s'ouvrir en roulant et provoquer un accident."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quel est le risque principal d'un arrêt cardiaque sans intervention des secours?",
-      "answer": "La mort de la victime qui survient en quelques minutes."
+      "answer": "La mort de la victime qui survient en quelques minutes.",
+      "answer_en": "The death of the victim, which occurs within a few minutes.",
+      "answer_simple": "La victime peut mourir en quelques minutes."
     }
   },
   {
@@ -1053,17 +1440,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez la commande de recyclage de l'air.",
-      "answer": "Le candidat montre la commande."
+      "answer": "Le candidat montre la commande.",
+      "answer_en": "The candidate shows the control.",
+      "answer_simple": "Le candidat montre le bouton."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel peut être le risque de maintenir le recyclage de l'air de manière prolongée ?",
-      "answer": "Un risque de mauvaise visibilité par l'apparition de buée sur les surfaces vitrées."
+      "answer": "Un risque de mauvaise visibilité par l'apparition de buée sur les surfaces vitrées.",
+      "answer_en": "A risk of poor visibility due to condensation forming on the windows.",
+      "answer_simple": "De la buée peut apparaître sur les vitres et on voit mal."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels sont les risques pour une personne en perte de connaissance qui est allongée sur le dos?",
-      "answer": "L'arrêt respiratoire et l'arrêt cardiaque."
+      "answer": "L'arrêt respiratoire et l'arrêt cardiaque.",
+      "answer_en": "Respiratory arrest and cardiac arrest.",
+      "answer_simple": "La personne peut arrêter de respirer et son coeur peut s'arrêter."
     }
   },
   {
@@ -1071,17 +1464,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez l'orifice de remplissage du produit lave-glace.",
-      "answer": "Le candidat montre l'orifice. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder."
+      "answer": "Le candidat montre l'orifice. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder.",
+      "answer_en": "The candidate shows the filler opening. If the candidate has difficulty opening the hood, the accompanying driver may show them how to proceed.",
+      "answer_simple": "Le candidat montre l'endroit pour mettre le liquide lave-glace. Si le candidat ne peut pas ouvrir le capot (avant de la voiture), l'accompagnateur peut l'aider."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel est le principal risque d'une absence de liquide lave-glace?",
-      "answer": "Une mauvaise visibilité."
+      "answer": "Une mauvaise visibilité.",
+      "answer_en": "Poor visibility.",
+      "answer_simple": "On voit mal à travers le pare-brise."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Pourquoi faut-il pratiquer immédiatement une réanimation cardio-pulmonaire sur une victime en arrêt cardiaque ?",
-      "answer": "Car les lésions du cerveau surviennent dès les premières minutes."
+      "answer": "Car les lésions du cerveau surviennent dès les premières minutes.",
+      "answer_en": "Because brain damage occurs within the first few minutes.",
+      "answer_simple": "Parce que le cerveau est abîmé dès les premières minutes sans massage cardiaque."
     }
   },
   {
@@ -1089,17 +1488,23 @@
     "verification": {
       "type": "VI",
       "question": "Allumez les feux de route et montrez le voyant correspondant.",
-      "answer": "L'action est effectuée par le candidat qui montre également le voyant."
+      "answer": "L'action est effectuée par le candidat qui montre également le voyant.",
+      "answer_en": "The action is performed by the candidate, who also shows the indicator light.",
+      "answer_simple": "Le candidat allume les feux de route (feux forts) et montre le voyant."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel est le risque de maintenir les feux de route lors d'un croisement avec d'autres usagers?",
-      "answer": "Un risque d'éblouissement des autres usagers."
+      "answer": "Un risque d'éblouissement des autres usagers.",
+      "answer_en": "A risk of dazzling other road users.",
+      "answer_simple": "On peut gêner avec la lumière les autres personnes sur la route."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quel est l'objectif du Signal d'Alerte et d'Information des Populations (SAIP)?",
-      "answer": "Avertir la population d'un danger imminent ou qu'un événement grave est en train de se produire."
+      "answer": "Avertir la population d'un danger imminent ou qu'un événement grave est en train de se produire.",
+      "answer_en": "To warn the population of an imminent danger or that a serious event is occurring.",
+      "answer_simple": "Prévenir les gens qu'il y a un danger ou qu'un événement grave se passe."
     }
   },
   {
@@ -1107,17 +1512,23 @@
     "verification": {
       "type": "VE",
       "question": "Vérifiez l'état, la propreté et le fonctionnement des feux diurnes.",
-      "answer": "Vérification des feux, propres, en bon état et qui fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des feux, propres, en bon état et qui fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check that the daytime running lights are clean, in good condition and working (any anomaly must be reported).",
+      "answer_simple": "Les feux de jour doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est leur utilité ?",
-      "answer": "Rendre le véhicule plus visible le jour."
+      "answer": "Rendre le véhicule plus visible le jour.",
+      "answer_en": "To make the vehicle more visible during the day.",
+      "answer_simple": "Rendre la voiture plus visible pendant la journée."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "A quel moment pouvez-vous mettre fin à un appel avec les secours?",
-      "answer": "Uniquement lorsque notre correspondant nous invite à le faire."
+      "answer": "Uniquement lorsque notre correspondant nous invite à le faire.",
+      "answer_en": "Only when your contact person tells you that you can hang up.",
+      "answer_simple": "Seulement quand la personne au téléphone dit que vous pouvez raccrocher."
     }
   },
   {
@@ -1125,17 +1536,23 @@
     "verification": {
       "type": "VI",
       "question": "Vérifiez la présence du constat amiable dans le véhicule.",
-      "answer": "Le candidat indique où se trouve le constat amiable."
+      "answer": "Le candidat indique où se trouve le constat amiable.",
+      "answer_en": "The candidate indicates where the accident report form is located.",
+      "answer_simple": "Le candidat montre où est le papier de constat."
     },
     "qser": {
       "type": "QSER",
       "question": "En cas d'accident, dans quel délai doit-il être transmis à l'assureur?",
-      "answer": "5 jours."
+      "answer": "5 jours.",
+      "answer_en": "5 days.",
+      "answer_simple": "5 jours."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quel est le risque principal d'un arrêt cardiaque sans intervention des secours?",
-      "answer": "La mort de la victime qui survient en quelques minutes."
+      "answer": "La mort de la victime qui survient en quelques minutes.",
+      "answer_en": "The death of the victim, which occurs within a few minutes.",
+      "answer_simple": "La victime peut mourir en quelques minutes."
     }
   },
   {
@@ -1143,17 +1560,23 @@
     "verification": {
       "type": "VE",
       "question": "Vérifiez la présence du triangle de pré-signalisation.",
-      "answer": "Le candidat indique où se trouve le triangle."
+      "answer": "Le candidat indique où se trouve le triangle.",
+      "answer_en": "The candidate indicates where the warning triangle is located.",
+      "answer_simple": "Le candidat montre où est le triangle de signalisation."
     },
     "qser": {
       "type": "QSER",
       "question": "Utilise-t-on le triangle de pré-signalisation sur autoroute ?",
-      "answer": "Non."
+      "answer": "Non.",
+      "answer_en": "No.",
+      "answer_simple": "Non."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quel comportement doit-on adopter en présence d'une victime en arrêt cardiaque ?",
-      "answer": "- ALERTER: alerter immédiatement les secours.\n- MASSER: pratiquer une réanimation cardio-pulmonaire.\n- DEFIBRILLER: utiliser un défibrillateur automatique (DAE) si possible."
+      "answer": "- ALERTER: alerter immédiatement les secours.\n- MASSER: pratiquer une réanimation cardio-pulmonaire.\n- DEFIBRILLER: utiliser un défibrillateur automatique (DAE) si possible.",
+      "answer_en": "- ALERT: immediately call emergency services.\n- COMPRESS: perform CPR (cardiopulmonary resuscitation).\n- DEFIBRILLATE: use an automated external defibrillator (AED) if available.",
+      "answer_simple": "- ALERTER : appeler les secours tout de suite.\n- MASSER : faire un massage cardiaque.\n- DÉFIBRILLER : utiliser un défibrillateur si possible."
     }
   },
   {
@@ -1161,17 +1584,23 @@
     "verification": {
       "type": "VI",
       "question": "De quelle couleur est le voyant qui indique une défaillance du système de freinage.",
-      "answer": "Rouge."
+      "answer": "Rouge.",
+      "answer_en": "Red.",
+      "answer_simple": "Rouge."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel est le risque de circuler avec un frein de parking mal desserré?",
-      "answer": "Une dégradation du système de freinage."
+      "answer": "Une dégradation du système de freinage.",
+      "answer_en": "Damage to the braking system.",
+      "answer_simple": "Le système de freinage peut s'abîmer."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment arrêter une hémorragie ?",
-      "answer": "En appuyant fortement sur l'endroit qui saigne avec les doigts ou avec la paume de la main en mettant un tissu propre sur la plaie."
+      "answer": "En appuyant fortement sur l'endroit qui saigne avec les doigts ou avec la paume de la main en mettant un tissu propre sur la plaie.",
+      "answer_en": "By pressing firmly on the bleeding area with your fingers or the palm of your hand, placing a clean cloth on the wound.",
+      "answer_simple": "Il faut appuyer fort sur l'endroit qui saigne avec les doigts ou la main, avec un tissu propre sur la blessure."
     }
   },
   {
@@ -1179,17 +1608,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez où s'effectue le changement d'une ampoule à l'avant du véhicule.",
-      "answer": "Le candidat montre l'emplacement (accès aux optiques). Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder."
+      "answer": "Le candidat montre l'emplacement (accès aux optiques). Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder.",
+      "answer_en": "The candidate shows the location (access to the headlight assembly). If the candidate has difficulty opening the hood, the accompanying driver may show them how to proceed.",
+      "answer_simple": "Le candidat montre l'endroit pour changer une ampoule à l'avant. Si le candidat ne peut pas ouvrir le capot (avant de la voiture), l'accompagnateur peut l'aider."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelles sont les conséquences en cas de panne d'un feu de croisement ?",
-      "answer": "Une mauvaise visibilité et le risque d'être confondu avec un deux roues."
+      "answer": "Une mauvaise visibilité et le risque d'être confondu avec un deux roues.",
+      "answer_en": "Poor visibility and the risk of being mistaken for a motorcycle.",
+      "answer_simple": "On voit mal la route et les autres peuvent confondre la voiture avec une moto."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Citez les trois manières d'évaluer l'état de conscience d'une victime?",
-      "answer": "- Lui poser des questions simples (\"comment ça va?\", \"vous m'entendez ?\").\n- Lui secouer doucement les épaules.\n- Lui prendre la main en lui demandant d'exécuter un geste simple (\"serrez-moi la main\")."
+      "answer": "- Lui poser des questions simples (\"comment ça va?\", \"vous m'entendez ?\").\n- Lui secouer doucement les épaules.\n- Lui prendre la main en lui demandant d'exécuter un geste simple (\"serrez-moi la main\").",
+      "answer_en": "- Ask simple questions (\"How are you?\", \"Can you hear me?\").\n- Gently shake the shoulders.\n- Take their hand and ask them to perform a simple gesture (\"Squeeze my hand\").",
+      "answer_simple": "- Poser des questions simples (\"ça va ?\", \"vous m'entendez ?\").\n- Secouer doucement les épaules.\n- Prendre la main et demander un geste simple (\"serrez ma main\")."
     }
   },
   {
@@ -1197,17 +1632,23 @@
     "verification": {
       "type": "VI",
       "question": "Si le véhicule en est équipé, montrez la commande du limiteur de vitesse.",
-      "answer": "Le candidat montre la commande."
+      "answer": "Le candidat montre la commande.",
+      "answer_en": "The candidate shows the control.",
+      "answer_simple": "Le candidat montre le bouton."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est l'utilité d'un limiteur de vitesse?",
-      "answer": "Ne pas dépasser la vitesse programmée par le conducteur."
+      "answer": "Ne pas dépasser la vitesse programmée par le conducteur.",
+      "answer_en": "To not exceed the speed set by the driver.",
+      "answer_simple": "La voiture ne dépasse pas la vitesse choisie par le conducteur."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels sont les numéros d'urgence à appeler ?",
-      "answer": "- Le 18, numéro d'appel des sapeurs-pompiers.\n- Le 15, numéro d'appel des SAMU.\n- Le 112, numéro de téléphone réservé aux appels d'urgence et valide dans l'ensemble de l'Union Européenne."
+      "answer": "- Le 18, numéro d'appel des sapeurs-pompiers.\n- Le 15, numéro d'appel des SAMU.\n- Le 112, numéro de téléphone réservé aux appels d'urgence et valide dans l'ensemble de l'Union Européenne.",
+      "answer_en": "- 18, the fire department number.\n- 15, the emergency medical services (SAMU) number.\n- 112, the emergency number valid throughout the European Union.",
+      "answer_simple": "- Le 18 pour les pompiers.\n- Le 15 pour le SAMU (urgences médicales).\n- Le 112 pour les urgences dans toute l'Europe."
     }
   },
   {
@@ -1215,17 +1656,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez où s'effectue le changement d'une ampoule à l'arrière du véhicule.",
-      "answer": "Le candidat montre l'emplacement (accès aux optiques)."
+      "answer": "Le candidat montre l'emplacement (accès aux optiques).",
+      "answer_en": "The candidate shows the location (access to the rear light assembly).",
+      "answer_simple": "Le candidat montre l'endroit pour changer une ampoule à l'arrière."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelles sont les conséquences en cas de panne d'un feu de position arrière?",
-      "answer": "Être mal vu et un risque de collision."
+      "answer": "Être mal vu et un risque de collision.",
+      "answer_en": "Being poorly seen and a risk of collision.",
+      "answer_simple": "Les autres voitures nous voient mal et il y a un risque d'accident."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment est diffusée l'alerte émise par le Signal d'Alerte et d'Information aux Populations (SAIP)?",
-      "answer": "Grâce aux sirènes, aux médias tels que Radio France et France Télévision ou encore grâce à l'application SAIP."
+      "answer": "Grâce aux sirènes, aux médias tels que Radio France et France Télévision ou encore grâce à l'application SAIP.",
+      "answer_en": "Through sirens, media such as Radio France and France Télévision, or through the SAIP application.",
+      "answer_simple": "Par les sirènes, la radio, la télévision, ou l'application du système d'alerte."
     }
   },
   {
@@ -1233,17 +1680,23 @@
     "verification": {
       "type": "VI",
       "question": "Faites fonctionner l'essuie-glace arrière du véhicule.",
-      "answer": "L'action est effectuée par le candidat."
+      "answer": "L'action est effectuée par le candidat.",
+      "answer_en": "The action is performed by the candidate.",
+      "answer_simple": "Le candidat fait l'action."
     },
     "qser": {
       "type": "QSER",
       "question": "Pour une bonne visibilité vers l'arrière, en plus de l'utilisation de l'essuie-glace, quelle commande pouvez-vous actionner par temps de pluie ?",
-      "answer": "La commande de désembuage arrière. Le terme dégivrage peut remplacer celui de désembuage."
+      "answer": "La commande de désembuage arrière. Le terme dégivrage peut remplacer celui de désembuage.",
+      "answer_en": "The rear demister control. The term 'defroster' can be used instead of 'demister'.",
+      "answer_simple": "Le bouton de désembuage arrière (pour enlever la buée sur la vitre arrière)."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels comportements adopter en présence d'une victime qui ne répond pas et ne réagit pas, mais respire?",
-      "answer": "- La placer en position stable sur le côté ou position latérale de sécurité.\n- Alerter les secours.\n- Surveiller la respiration de la victime jusqu'à l'arrivée des secours."
+      "answer": "- La placer en position stable sur le côté ou position latérale de sécurité.\n- Alerter les secours.\n- Surveiller la respiration de la victime jusqu'à l'arrivée des secours.",
+      "answer_en": "- Place her in a stable position on her side, also known as the recovery position.\n- Call emergency services.\n- Monitor the victim's breathing until help arrives.",
+      "answer_simple": "- Mettre la personne sur le côté (position sur le côté).\n- Appeler les secours.\n- Vérifier sa respiration jusqu'à l'arrivée des secours."
     }
   },
   {
@@ -1251,17 +1704,23 @@
     "verification": {
       "type": "VE",
       "question": "Ouvrez et refermez le coffre, puis vérifiez sa bonne fermeture.",
-      "answer": "L'action est effectuée par le candidat."
+      "answer": "L'action est effectuée par le candidat.",
+      "answer_en": "The action is performed by the candidate.",
+      "answer_simple": "Le candidat fait l'action."
     },
     "qser": {
       "type": "QSER",
       "question": "Lorsque vous transportez un poids important dans le coffre, quelles sont les précautions à prendre en ce qui concerne les pneumatiques et l'éclairage avant ?",
-      "answer": "Augmenter la pression des pneumatiques et régler la hauteur des feux avants."
+      "answer": "Augmenter la pression des pneumatiques et régler la hauteur des feux avants.",
+      "answer_en": "Increase the tire pressure and adjust the headlight beam height.",
+      "answer_simple": "Il faut augmenter la pression des pneus et régler la hauteur des feux avant."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "L'utilisation d'un Défibrillateur Automatisé (DAE) sur une victime qui n'est pas en arrêt cardiaque présente-t-elle un risque ?",
-      "answer": "Non car le défibrillateur se déclenche uniquement quand la victime est en arrêt cardiaque."
+      "answer": "Non car le défibrillateur se déclenche uniquement quand la victime est en arrêt cardiaque.",
+      "answer_en": "No, because the automated external defibrillator (AED) only activates when the victim is in cardiac arrest.",
+      "answer_simple": "Non, car le défibrillateur fonctionne seulement quand le coeur de la victime est arrêté."
     }
   },
   {
@@ -1269,17 +1728,23 @@
     "verification": {
       "type": "VI",
       "question": "Indiquez où se situe les attaches de type Isofix dans le véhicule.",
-      "answer": "Le candidat montre les attaches (généralement aux places arrière)."
+      "answer": "Le candidat montre les attaches (généralement aux places arrière).",
+      "answer_en": "The candidate shows the Isofix anchor points (usually at the rear seats).",
+      "answer_simple": "Le candidat montre les attaches Isofix (en général sur les sièges arrière)."
     },
     "qser": {
       "type": "QSER",
       "question": "Peut-on fixer tous les sièges enfant sur des attaches de type Isofix ?",
-      "answer": "Non (uniquement ceux compatibles avec ce type d'attache)."
+      "answer": "Non (uniquement ceux compatibles avec ce type d'attache).",
+      "answer_en": "No (only those compatible with this type of anchor).",
+      "answer_simple": "Non, seulement les sièges enfant faits pour les attaches Isofix."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment vérifier la respiration d'une victime?",
-      "answer": "Regarder si le ventre et la poitrine se soulèvent et sentir de l'air à l'expiration."
+      "answer": "Regarder si le ventre et la poitrine se soulèvent et sentir de l'air à l'expiration.",
+      "answer_en": "Watch whether the abdomen and chest rise, and feel for air on expiration.",
+      "answer_simple": "Regarder si le ventre et la poitrine bougent, et sentir l'air quand la personne souffle."
     }
   },
   {
@@ -1287,17 +1752,23 @@
     "verification": {
       "type": "VE",
       "question": "Ouvrez et refermez le coffre, puis vérifiez sa bonne fermeture.",
-      "answer": "L'action est effectuée par le candidat."
+      "answer": "L'action est effectuée par le candidat.",
+      "answer_en": "The action is performed by the candidate.",
+      "answer_simple": "Le candidat fait l'action."
     },
     "qser": {
       "type": "QSER",
       "question": "Quels sont les risques de circuler avec des objets sur la plage arrière ?",
-      "answer": "Une mauvaise visibilité vers l'arrière et un risque de projection en cas de freinage brusque ou de choc."
+      "answer": "Une mauvaise visibilité vers l'arrière et un risque de projection en cas de freinage brusque ou de choc.",
+      "answer_en": "Poor visibility towards the rear and a risk of objects being thrown forward in case of sudden braking or impact.",
+      "answer_simple": "On voit mal vers l'arrière et les objets peuvent être projetés en cas de freinage fort ou d'accident."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Qu'est ce qu'une hémorragie ?",
-      "answer": "C'est une perte de sang prolongée qui ne s'arrête pas. Elle imbibe de sang un mouchoir en quelques secondes."
+      "answer": "C'est une perte de sang prolongée qui ne s'arrête pas. Elle imbibe de sang un mouchoir en quelques secondes.",
+      "answer_en": "It is a prolonged loss of blood that does not stop. It soaks a handkerchief with blood in a few seconds.",
+      "answer_simple": "C'est un saignement important qui ne s'arrête pas. Un mouchoir est plein de sang en quelques secondes."
     }
   },
   {
@@ -1305,17 +1776,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez sur le tableau de bord le voyant indiquant une baisse de pression d'air d'un pneumatique.",
-      "answer": "Le candidat montre le voyant (souvent un pneu sectionné avec un point d'exclamation)."
+      "answer": "Le candidat montre le voyant (souvent un pneu sectionné avec un point d'exclamation).",
+      "answer_en": "The candidate shows the warning light (usually a cross-section of a tire with an exclamation mark).",
+      "answer_simple": "Le candidat montre le voyant (souvent un pneu avec un point d'exclamation)."
     },
     "qser": {
       "type": "QSER",
       "question": "A quelle fréquence est-il préconisé de vérifier la pression d'air des pneumatiques?",
-      "answer": "Tous les mois."
+      "answer": "Tous les mois.",
+      "answer_en": "Every month.",
+      "answer_simple": "Tous les mois."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Qu'est ce qu'un arrêt cardiaque?",
-      "answer": "Le cœur ne fonctionne plus ou fonctionne d'une façon anarchique."
+      "answer": "Le cœur ne fonctionne plus ou fonctionne d'une façon anarchique.",
+      "answer_en": "The heart has stopped working or is functioning erratically.",
+      "answer_simple": "Le coeur ne marche plus ou bat de façon désordonnée."
     }
   },
   {
@@ -1323,17 +1800,23 @@
     "verification": {
       "type": "VE",
       "question": "Procédez à l'ouverture du capot puis à sa fermeture en vous assurant de son verrouillage.",
-      "answer": "L'action est effectuée par le candidat."
+      "answer": "L'action est effectuée par le candidat.",
+      "answer_en": "The action is performed by the candidate.",
+      "answer_simple": "Le candidat fait l'action."
     },
     "qser": {
       "type": "QSER",
       "question": "Pour un capot s'ouvrant depuis l'avant du véhicule, quelle est l'utilité du dispositif de sécurité ?",
-      "answer": "Empêcher l'ouverture du capot en circulation en cas de mauvais verrouillage."
+      "answer": "Empêcher l'ouverture du capot en circulation en cas de mauvais verrouillage.",
+      "answer_en": "To prevent the hood from opening while driving in case of poor latching.",
+      "answer_simple": "Le système de sécurité empêche le capot (avant de la voiture) de s'ouvrir quand on roule si on l'a mal fermé."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels sont les risques pour une personne victime d'une hémorragie ?",
-      "answer": "Entraîner pour la victime une détresse circulatoire ou un arrêt cardiaque."
+      "answer": "Entraîner pour la victime une détresse circulatoire ou un arrêt cardiaque.",
+      "answer_en": "It can cause circulatory distress or cardiac arrest for the victim.",
+      "answer_simple": "La victime peut avoir un problème de circulation du sang ou un arrêt du coeur."
     }
   },
   {
@@ -1341,17 +1824,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez la commande de réglage de hauteur des feux.",
-      "answer": "Dispositif situé en général à gauche du volant."
+      "answer": "Dispositif situé en général à gauche du volant.",
+      "answer_en": "A device usually located to the left of the steering wheel.",
+      "answer_simple": "C'est un bouton qui est en général à gauche du volant."
     },
     "qser": {
       "type": "QSER",
       "question": "Pourquoi doit-on régler la hauteur des feux ?",
-      "answer": "Pour ne pas éblouir les autres usagers."
+      "answer": "Pour ne pas éblouir les autres usagers.",
+      "answer_en": "To avoid dazzling other road users.",
+      "answer_simple": "Pour ne pas gêner avec la lumière les autres personnes sur la route."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment et pourquoi protéger une zone de danger en cas d'accident de la route?",
-      "answer": "En délimitant clairement et largement la zone de danger de façon visible pour protéger les victimes et éviter un sur-accident."
+      "answer": "En délimitant clairement et largement la zone de danger de façon visible pour protéger les victimes et éviter un sur-accident.",
+      "answer_en": "By clearly and widely marking the danger zone in a visible way to protect victims and prevent a secondary accident.",
+      "answer_simple": "Il faut marquer la zone de danger de façon visible, assez loin, pour protéger les victimes et éviter un autre accident."
     }
   },
   {
@@ -1359,17 +1848,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez où se situent les gicleurs de lave-glace avant.",
-      "answer": "Le candidat montre les gicleurs sur le capot ou près du pare-brise."
+      "answer": "Le candidat montre les gicleurs sur le capot ou près du pare-brise.",
+      "answer_en": "The candidate shows the washer nozzles on the hood or near the windshield.",
+      "answer_simple": "Le candidat montre les petits trous pour le lave-glace sur le capot (avant de la voiture) ou près du pare-brise."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est la principale conséquence d'un dispositif de lave-glace défaillant ?",
-      "answer": "Une mauvaise visibilité due à l'impossibilité de nettoyer le pare-brise."
+      "answer": "Une mauvaise visibilité due à l'impossibilité de nettoyer le pare-brise.",
+      "answer_en": "Poor visibility due to the inability to clean the windshield.",
+      "answer_simple": "On voit mal parce qu'on ne peut pas nettoyer le pare-brise."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Qu'est ce qu'un défibrillateur automatisé externe (DAE)?",
-      "answer": "C'est un appareil qui peut permettre de rétablir une activité cardiaque normale à une victime en arrêt cardiaque."
+      "answer": "C'est un appareil qui peut permettre de rétablir une activité cardiaque normale à une victime en arrêt cardiaque.",
+      "answer_en": "It is a device that can restore normal cardiac activity to a victim in cardiac arrest.",
+      "answer_simple": "C'est un appareil qui peut faire repartir le coeur d'une victime en arrêt cardiaque."
     }
   },
   {
@@ -1377,17 +1872,23 @@
     "verification": {
       "type": "VI",
       "question": "Mettez le rétroviseur intérieur en position \"nuit\". Si le rétroviseur de l'accompagnateur gène la manipulation du dispositif, l'explication suffit.",
-      "answer": "Le candidat actionne le dispositif. Si le véhicule possède un système automatique de mise en position \"nuit\" du rétroviseur intérieur, le candidat l'indique."
+      "answer": "Le candidat actionne le dispositif. Si le véhicule possède un système automatique de mise en position \"nuit\" du rétroviseur intérieur, le candidat l'indique.",
+      "answer_en": "The candidate activates the device. If the vehicle has an automatic night mode for the interior rearview mirror, the candidate indicates it.",
+      "answer_simple": "Le candidat utilise le bouton du miroir intérieur. Si la voiture a un mode nuit automatique, le candidat le dit."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel est l'intérêt de la position nuit ?",
-      "answer": "Ne pas être ébloui par les feux du véhicule suiveur."
+      "answer": "Ne pas être ébloui par les feux du véhicule suiveur.",
+      "answer_en": "To avoid being dazzled by the headlights of the vehicle behind you.",
+      "answer_simple": "Pour ne pas être gêné par la lumière de la voiture derrière."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment est composé le signal d'alerte du Système d'Alerte et d'Information des Populations (SAIP) diffusé par les sirènes ?",
-      "answer": "Il se compose de deux codes distincts:\n- le Signal National d'Alerte (SNA), variation du signal sur trois cycles successifs.\n- Le signal de fin d'alerte, signal continu."
+      "answer": "Il se compose de deux codes distincts:\n- le Signal National d'Alerte (SNA), variation du signal sur trois cycles successifs.\n- Le signal de fin d'alerte, signal continu.",
+      "answer_en": "It consists of two distinct codes:\n- The National Alert Signal (SNA), a varying signal over three successive cycles.\n- The end-of-alert signal, a continuous tone.",
+      "answer_simple": "Il y a deux sons différents :\n- Le signal d'alerte : le son change trois fois.\n- Le signal de fin : le son est continu (il ne change pas)."
     }
   },
   {
@@ -1395,17 +1896,23 @@
     "verification": {
       "type": "VE",
       "question": "Contrôlez l'état du flanc sur l'un des pneumatiques.",
-      "answer": "Le candidat vérifie l'état d'un flanc de pneumatique. En bon état (toute anomalie doit être signalée)."
+      "answer": "Le candidat vérifie l'état d'un flanc de pneumatique. En bon état (toute anomalie doit être signalée).",
+      "answer_en": "The candidate checks the condition of a tire sidewall. In good condition (any defect must be reported).",
+      "answer_simple": "Le candidat regarde le côté d'un pneu. Le pneu est en bon état. Si quelque chose ne va pas, il faut le dire."
     },
     "qser": {
       "type": "QSER",
       "question": "Citez un endroit où l'on peut trouver les pressions préconisées pour les pneumatiques?",
-      "answer": "Elles sont indiquées :\n- soit sur une plaque sur une portière.\n- soit dans la notice d'utilisation du véhicule.\n- soit au niveau de la trappe à carburant."
+      "answer": "Elles sont indiquées :\n- soit sur une plaque sur une portière.\n- soit dans la notice d'utilisation du véhicule.\n- soit au niveau de la trappe à carburant.",
+      "answer_en": "They are indicated:\n- Either on a plate on a door.\n- Or in the vehicle owner's manual.\n- Or near the fuel filler cap.",
+      "answer_simple": "On peut trouver la bonne pression des pneus :\n- Sur une étiquette sur la portière.\n- Dans le livre de la voiture.\n- Près du bouchon d'essence."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Sur autoroute, comment indiquer avec précision les lieux de l'accident depuis un téléphone portable?",
-      "answer": "En indiquant le numéro de l'autoroute, le sens de circulation et le point kilométrique."
+      "answer": "En indiquant le numéro de l'autoroute, le sens de circulation et le point kilométrique.",
+      "answer_en": "By providing the highway number, the direction of travel, and the kilometer marker.",
+      "answer_simple": "Il faut donner le numéro de l'autoroute, la direction et le point kilométrique."
     }
   },
   {
@@ -1413,17 +1920,23 @@
     "verification": {
       "type": "VI",
       "question": "Faites fonctionner les essuie-glaces avants du véhicule sur la position la plus rapide.",
-      "answer": "L'action est effectuée par le candidat."
+      "answer": "L'action est effectuée par le candidat.",
+      "answer_en": "The action is performed by the candidate.",
+      "answer_simple": "Le candidat fait l'action."
     },
     "qser": {
       "type": "QSER",
       "question": "Comment détecte-t-on leur usure en circulation?",
-      "answer": "En cas de pluie, lorsqu'ils laissent des traces sur le pare brise."
+      "answer": "En cas de pluie, lorsqu'ils laissent des traces sur le pare brise.",
+      "answer_en": "When it rains, if they leave streaks on the windshield.",
+      "answer_simple": "Quand il pleut, les essuie-glaces laissent des traces sur le pare-brise."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment vérifier la respiration d'une victime?",
-      "answer": "Regarder si le ventre et la poitrine se soulèvent et sentir de l'air à l'expiration."
+      "answer": "Regarder si le ventre et la poitrine se soulèvent et sentir de l'air à l'expiration.",
+      "answer_en": "Watch whether the abdomen and chest rise, and feel for air on expiration.",
+      "answer_simple": "Regarder si le ventre et la poitrine bougent, et sentir l'air quand la personne souffle."
     }
   },
   {
@@ -1431,17 +1944,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez où s'effectue le contrôle du niveau du liquide de frein.",
-      "answer": "Le candidat montre que le niveau est entre le mini et le maxi. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder."
+      "answer": "Le candidat montre que le niveau est entre le mini et le maxi. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder.",
+      "answer_en": "The candidate shows that the level is between the minimum and maximum marks. If the candidate has difficulty opening the hood, the accompanying driver may indicate how to proceed.",
+      "answer_simple": "Le candidat montre que le niveau est entre le minimum et le maximum. Si c'est difficile d'ouvrir le capot (avant de la voiture), l'accompagnateur peut aider."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est la conséquence d'un niveau insuffisant du liquide de frein?",
-      "answer": "Une perte d'efficacité du freinage."
+      "answer": "Une perte d'efficacité du freinage.",
+      "answer_en": "Reduced braking effectiveness.",
+      "answer_simple": "Les freins marchent moins bien."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "En cas de panne ou d'accident, quel équipement de sécurité doit être porté avant de quitter le véhicule ?",
-      "answer": "Il faut porter le gilet de haute visibilité avant de sortir du véhicule. Le terme \"gilet jaune\" peut être utilisé par le candidat."
+      "answer": "Il faut porter le gilet de haute visibilité avant de sortir du véhicule. Le terme \"gilet jaune\" peut être utilisé par le candidat.",
+      "answer_en": "You must put on the high-visibility vest before exiting the vehicle. The term \"yellow vest\" may be used by the candidate.",
+      "answer_simple": "Il faut mettre le gilet jaune avant de sortir de la voiture."
     }
   },
   {
@@ -1449,17 +1968,23 @@
     "verification": {
       "type": "VI",
       "question": "Vérifiez la présence du gilet de haute visibilité.",
-      "answer": "Le candidat doit indiquer où il se trouve sans obligation de le sortir. Le terme \"gilet jaune\" peut être utilisé si le candidat ne comprend pas."
+      "answer": "Le candidat doit indiquer où il se trouve sans obligation de le sortir. Le terme \"gilet jaune\" peut être utilisé si le candidat ne comprend pas.",
+      "answer_en": "The candidate must indicate where the high-visibility vest is located, without having to take it out. The term \"yellow vest\" may be used if the candidate does not understand.",
+      "answer_simple": "Le candidat dit où est le gilet jaune. Il n'a pas besoin de le sortir."
     },
     "qser": {
       "type": "QSER",
       "question": "En cas de panne ou d'accident, quel autre accessoire de sécurité est obligatoire?",
-      "answer": "Le triangle de pré-signalisation."
+      "answer": "Le triangle de pré-signalisation.",
+      "answer_en": "The warning triangle.",
+      "answer_simple": "Le triangle de signalisation."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Si un dégagement d'urgence de la victime est nécessaire, où doit-elle être déplacée ?",
-      "answer": "Dans un endroit suffisamment éloigné du danger et de ses conséquences."
+      "answer": "Dans un endroit suffisamment éloigné du danger et de ses conséquences.",
+      "answer_en": "To a place far enough away from the danger and its consequences.",
+      "answer_simple": "Dans un endroit loin du danger."
     }
   },
   {
@@ -1467,17 +1992,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez où s'effectue le remplissage du liquide de refroidissement.",
-      "answer": "Le candidat ouvre le capot et montre le bocal. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder."
+      "answer": "Le candidat ouvre le capot et montre le bocal. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder.",
+      "answer_en": "The candidate opens the hood and shows the reservoir. If the candidate has difficulty opening the hood, the accompanying driver may indicate how to proceed.",
+      "answer_simple": "Le candidat ouvre le capot (avant de la voiture) et montre le réservoir. Si c'est difficile d'ouvrir le capot, l'accompagnateur peut aider."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel est le danger si l'on complète le niveau du liquide lorsque le moteur est chaud ?",
-      "answer": "Un risque de brûlure."
+      "answer": "Un risque de brûlure.",
+      "answer_en": "A risk of burns.",
+      "answer_simple": "On peut se brûler."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment arrêter une hémorragie ?",
-      "answer": "En appuyant fortement sur l'endroit qui saigne avec les doigts ou avec la paume de la main en mettant un tissu propre sur la plaie."
+      "answer": "En appuyant fortement sur l'endroit qui saigne avec les doigts ou avec la paume de la main en mettant un tissu propre sur la plaie.",
+      "answer_en": "By pressing firmly on the bleeding area with your fingers or the palm of your hand, placing a clean cloth on the wound.",
+      "answer_simple": "Il faut appuyer fort sur l'endroit qui saigne avec les doigts ou la main, avec un tissu propre sur la blessure."
     }
   },
   {
@@ -1485,17 +2016,23 @@
     "verification": {
       "type": "VI",
       "question": "Actionnez le dégivrage de la lunette arrière et montrez le voyant ou le repère correspondant.",
-      "answer": "L'action est effectuée par le candidat qui montre également le voyant."
+      "answer": "L'action est effectuée par le candidat qui montre également le voyant.",
+      "answer_en": "The action is performed by the candidate, who also shows the indicator light.",
+      "answer_simple": "Le candidat allume les feux de route (feux forts) et montre le voyant."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle peut être la conséquence d'une panne de dégivrage de la lunette arrière?",
-      "answer": "L'insuffisance ou l'absence de visibilité vers l'arrière."
+      "answer": "L'insuffisance ou l'absence de visibilité vers l'arrière.",
+      "answer_en": "Reduced or no visibility toward the rear.",
+      "answer_simple": "On ne voit pas bien ou pas du tout par la vitre arrière."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Hors autoroute ou endroit dangereux, en cas de panne ou d'accident, où doit être placé le triangle de pré-signalisation?",
-      "answer": "Le triangle de pré-signalisation doit être placé à une distance d'environ 30 m de la panne ou de l'accident, ou avant un virage, ou un sommet de côte."
+      "answer": "Le triangle de pré-signalisation doit être placé à une distance d'environ 30 m de la panne ou de l'accident, ou avant un virage, ou un sommet de côte.",
+      "answer_en": "The warning triangle must be placed approximately 30 meters from the breakdown or accident, or before a bend, or at the top of a hill.",
+      "answer_simple": "Le triangle de signalisation doit être placé à environ 30 mètres de la panne ou de l'accident, ou avant un virage ou en haut d'une côte."
     }
   },
   {
@@ -1503,17 +2040,23 @@
     "verification": {
       "type": "VE",
       "question": "Contrôlez l'état, la propreté et le fonctionnement de tous les clignotants côté trottoir.",
-      "answer": "Vérification des clignotants, propres, en bon état et fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des clignotants, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check that the turn signals are clean, in good condition, and working (any defect must be reported).",
+      "answer_simple": "Les clignotants sont propres, en bon état et ils marchent. Si quelque chose ne va pas, il faut le dire."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est la signification d'un clignotement plus rapide ?",
-      "answer": "Non fonctionnement de l'une des ampoules."
+      "answer": "Non fonctionnement de l'une des ampoules.",
+      "answer_en": "One of the bulbs is not working.",
+      "answer_simple": "Une ampoule ne marche plus."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quelles sont les conditions (ou précautions) pour réaliser le dégagement d'urgence d'une victime en présence d'un danger réel, immédiat et non contrôlable?",
-      "answer": "La victime doit être visible, facile à atteindre et rien ne doit gêner son dégagement. Il faut être sûr(e) de pouvoir réaliser le dégagement de la victime."
+      "answer": "La victime doit être visible, facile à atteindre et rien ne doit gêner son dégagement. Il faut être sûr(e) de pouvoir réaliser le dégagement de la victime.",
+      "answer_en": "The victim must be visible, easy to reach, and nothing must hinder their removal. You must be sure you can safely carry out the victim's extraction.",
+      "answer_simple": "La victime doit être visible et facile à atteindre. Rien ne doit gêner pour la déplacer. Il faut être sûr de pouvoir le faire."
     }
   },
   {
@@ -1521,17 +2064,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez le voyant d'alerte signalant une pression insuffisante d'huile dans le moteur.",
-      "answer": "Le candidat montre le voyant sur le tableau de bord."
+      "answer": "Le candidat montre le voyant sur le tableau de bord.",
+      "answer_en": "The candidate shows the warning light on the dashboard.",
+      "answer_simple": "Le candidat montre le voyant sur le tableau de bord."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelles sont les conditions à respecter pour contrôler ou compléter le niveau d'huile?",
-      "answer": "Moteur froid et sur un terrain plat."
+      "answer": "Moteur froid et sur un terrain plat.",
+      "answer_en": "The engine must be cold and the vehicle on level ground.",
+      "answer_simple": "Le moteur doit être froid et la voiture sur un terrain plat."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quelles sont les trois informations à transmettre aux services de secours?",
-      "answer": "Le numéro de téléphone à partir duquel l'appel est émis, la nature et la localisation la plus précise du problème."
+      "answer": "Le numéro de téléphone à partir duquel l'appel est émis, la nature et la localisation la plus précise du problème.",
+      "answer_en": "The phone number from which the call is being made, the nature of the problem, and the most precise location of the incident.",
+      "answer_simple": "Le numéro de téléphone utilisé pour appeler, ce qui se passe, et l'endroit exact du problème."
     }
   },
   {
@@ -1539,17 +2088,23 @@
     "verification": {
       "type": "VE",
       "question": "Contrôlez l'état, la propreté et le fonctionnement des feux de détresse à l'avant et à l'arrière.",
-      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check that the brake lights are clean, in good condition and working (any anomaly must be reported).",
+      "answer_simple": "Les feux de stop doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
     },
     "qser": {
       "type": "QSER",
       "question": "Dans quels cas doit-on les utiliser?",
-      "answer": "En cas de panne, d'accident ou de ralentissement important."
+      "answer": "En cas de panne, d'accident ou de ralentissement important.",
+      "answer_en": "In case of a breakdown, accident, or significant slowdown.",
+      "answer_simple": "Quand il y a une panne, un accident ou un ralentissement important."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Dans quel cas peut-on positionner une victime en Position Latérale de Sécurité?",
-      "answer": "Si la victime ne répond pas, ne réagit pas et respire."
+      "answer": "Si la victime ne répond pas, ne réagit pas et respire.",
+      "answer_en": "If the victim does not respond, does not react, and is breathing.",
+      "answer_simple": "Si la personne ne répond pas, ne bouge pas, mais elle respire."
     }
   },
   {
@@ -1557,17 +2112,23 @@
     "verification": {
       "type": "VI",
       "question": "Vérifiez la présence de l'éthylotest.",
-      "answer": "Le candidat indique où se trouve l'éthylotest."
+      "answer": "Le candidat indique où se trouve l'éthylotest.",
+      "answer_en": "The candidate indicates where the breathalyzer is located.",
+      "answer_simple": "Le candidat montre où est le test d'alcool."
     },
     "qser": {
       "type": "QSER",
       "question": "A partir de quel taux d'alcoolémie, en période de permis probatoire, est-on en infraction?",
-      "answer": "0,2 g/l, c'est à dire 0 verre, car dès le 1er verre ce seuil peut être dépassé."
+      "answer": "0,2 g/l, c'est à dire 0 verre, car dès le 1er verre ce seuil peut être dépassé.",
+      "answer_en": "0.2 g/l, meaning zero drinks, because even one drink can exceed this threshold.",
+      "answer_simple": "0,2 g/l. Cela veut dire 0 verre d'alcool. Avec un seul verre, on peut dépasser cette limite."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quel comportement doit-on adopter en présence d'une victime en arrêt cardiaque ?",
-      "answer": "- ALERTER: alerter immédiatement les secours.\n- MASSER: pratiquer une réanimation cardio-pulmonaire.\n- DEFIBRILLER: utiliser un défibrillateur automatique (DAE) si possible."
+      "answer": "- ALERTER: alerter immédiatement les secours.\n- MASSER: pratiquer une réanimation cardio-pulmonaire.\n- DEFIBRILLER: utiliser un défibrillateur automatique (DAE) si possible.",
+      "answer_en": "- ALERT: immediately call emergency services.\n- COMPRESS: perform CPR (cardiopulmonary resuscitation).\n- DEFIBRILLATE: use an automated external defibrillator (AED) if available.",
+      "answer_simple": "- ALERTER : appeler les secours tout de suite.\n- MASSER : faire un massage cardiaque.\n- DÉFIBRILLER : utiliser un défibrillateur si possible."
     }
   },
   {
@@ -1575,17 +2136,23 @@
     "verification": {
       "type": "VE",
       "question": "Contrôlez l'état, la propreté et le fonctionnement des feux de route.",
-      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check that the brake lights are clean, in good condition and working (any anomaly must be reported).",
+      "answer_simple": "Les feux de stop doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
     },
     "qser": {
       "type": "QSER",
       "question": "Citez un cas d'utilisation d'un appel lumineux.",
-      "answer": "Pour avertir de son approche.\nEn cas de danger.\nA la place de l'avertisseur sonore."
+      "answer": "Pour avertir de son approche.\nEn cas de danger.\nA la place de l'avertisseur sonore.",
+      "answer_en": "To warn of your approach.\nIn case of danger.\nAs a substitute for the horn.",
+      "answer_simple": "Pour dire qu'on arrive.\nQuand il y a un danger.\nÀ la place du klaxon."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "En cas de panne ou d'accident, quel équipement de sécurité doit être porté avant de quitter le véhicule ?",
-      "answer": "Il faut porter le gilet de haute visibilité avant de sortir du véhicule. Le terme \"gilet jaune\" peut être utilisé par le candidat."
+      "answer": "Il faut porter le gilet de haute visibilité avant de sortir du véhicule. Le terme \"gilet jaune\" peut être utilisé par le candidat.",
+      "answer_en": "You must put on the high-visibility vest before exiting the vehicle. The term \"yellow vest\" may be used by the candidate.",
+      "answer_simple": "Il faut mettre le gilet jaune avant de sortir de la voiture."
     }
   },
   {
@@ -1593,17 +2160,23 @@
     "verification": {
       "type": "VI",
       "question": "Positionnez la commande pour diriger l'air vers le pare-brise.",
-      "answer": "L'action est effectuée par le candidat. La position auto (désembuage automatique) peut être utilisée si le véhicule en est équipé."
+      "answer": "L'action est effectuée par le candidat. La position auto (désembuage automatique) peut être utilisée si le véhicule en est équipé.",
+      "answer_en": "The action is performed by the candidate. The auto position (automatic defogging) can be used if the vehicle is equipped with it.",
+      "answer_simple": "Le candidat fait l'action. Le mode automatique peut être utilisé si la voiture l'a."
     },
     "qser": {
       "type": "QSER",
       "question": "Citez deux éléments complémentaires permettant un désembuage efficace ?",
-      "answer": "- La commande de vitesse de ventilation.\n- La commande d'air chaud.\n- La climatisation."
+      "answer": "- La commande de vitesse de ventilation.\n- La commande d'air chaud.\n- La climatisation.",
+      "answer_en": "- The fan speed control.\n- The hot air control.\n- The air conditioning.",
+      "answer_simple": "- La vitesse du ventilateur.\n- L'air chaud.\n- La climatisation."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quel est l'objectif du Signal d'Alerte et d'Information des Populations (SAIP)?",
-      "answer": "Avertir la population d'un danger imminent ou qu'un événement grave est en train de se produire."
+      "answer": "Avertir la population d'un danger imminent ou qu'un événement grave est en train de se produire.",
+      "answer_en": "To warn the population of an imminent danger or that a serious event is occurring.",
+      "answer_simple": "Prévenir les gens qu'il y a un danger ou qu'un événement grave se passe."
     }
   },
   {
@@ -1611,17 +2184,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez où doit s'effectuer le contrôle du niveau d'huile moteur.",
-      "answer": "Le candidat montre la jauge. Pas de manipulation exigée. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder."
+      "answer": "Le candidat montre la jauge. Pas de manipulation exigée. Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder.",
+      "answer_en": "The candidate shows the dipstick. No manipulation is required. If the candidate has difficulty opening the hood, the accompanying driver may indicate how to proceed.",
+      "answer_simple": "Le candidat montre la jauge d'huile. Il n'a pas besoin de la toucher. Si c'est difficile d'ouvrir le capot (avant de la voiture), l'accompagnateur peut aider."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel est le principal risque d'un manque d'huile moteur ?",
-      "answer": "Un risque de détérioration ou de casse du moteur."
+      "answer": "Un risque de détérioration ou de casse du moteur.",
+      "answer_en": "A risk of engine damage or engine failure.",
+      "answer_simple": "Le moteur peut s'abîmer ou casser."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment est diffusée l'alerte émise par Le Signal d'Alerte et d'Information aux Populations (SAIP)?",
-      "answer": "Grâce aux sirènes, aux médias tels que Radio France et France Télévision ou encore grâce à l'application SAIP."
+      "answer": "Grâce aux sirènes, aux médias tels que Radio France et France Télévision ou encore grâce à l'application SAIP.",
+      "answer_en": "Through sirens, media such as Radio France and France Télévision, or through the SAIP application.",
+      "answer_simple": "Par les sirènes, la radio, la télévision, ou l'application du système d'alerte."
     }
   },
   {
@@ -1629,17 +2208,23 @@
     "verification": {
       "type": "VI",
       "question": "De quelle couleur est le voyant qui indique une défaillance du système de freinage?",
-      "answer": "Rouge."
+      "answer": "Rouge.",
+      "answer_en": "Red.",
+      "answer_simple": "Rouge."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel est le risque de circuler avec un frein de parking mal desserré ?",
-      "answer": "Une dégradation du système de freinage."
+      "answer": "Une dégradation du système de freinage.",
+      "answer_en": "Damage to the braking system.",
+      "answer_simple": "Le système de freinage peut s'abîmer."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "En général, en cas de panne ou d'accident, où doit être placé le triangle de pré-signalisation?",
-      "answer": "Le triangle de pré-signalisation doit être placé à une distance d'environ 30 m de la panne ou de l'accident, ou avant un virage ou un sommet de côte."
+      "answer": "Le triangle de pré-signalisation doit être placé à une distance d'environ 30 m de la panne ou de l'accident, ou avant un virage ou un sommet de côte.",
+      "answer_en": "The warning triangle must be placed approximately 30 meters from the breakdown or accident, or before a bend or at the top of a hill.",
+      "answer_simple": "Le triangle de signalisation doit être placé à environ 30 mètres de la panne ou de l'accident, ou avant un virage ou en haut d'une côte."
     }
   },
   {
@@ -1647,17 +2232,23 @@
     "verification": {
       "type": "VE",
       "question": "Contrôlez l'état, la propreté et le fonctionnement des feux de croisement.",
-      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check that the brake lights are clean, in good condition and working (any anomaly must be reported).",
+      "answer_simple": "Les feux de stop doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelles sont les conséquences d'un mauvais réglage de ces feux ?",
-      "answer": "Une mauvaise vision vers l'avant et un risque d'éblouissement des autres usagers."
+      "answer": "Une mauvaise vision vers l'avant et un risque d'éblouissement des autres usagers.",
+      "answer_en": "Poor forward visibility and a risk of dazzling other road users.",
+      "answer_simple": "On voit mal devant et on peut gêner avec la lumière les autres personnes sur la route."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Dans quelle situation peut-on déplacer une victime ?",
-      "answer": "En présence d'un danger réel, immédiat, non contrôlable. Ce déplacement doit rester exceptionnel."
+      "answer": "En présence d'un danger réel, immédiat, non contrôlable. Ce déplacement doit rester exceptionnel.",
+      "answer_en": "In the presence of a real, immediate, uncontrollable danger. This displacement must remain exceptional.",
+      "answer_simple": "Seulement si le danger est réel, immédiat et impossible à contrôler. On déplace une victime seulement si c'est vraiment nécessaire."
     }
   },
   {
@@ -1665,17 +2256,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez le voyant d'alerte signalant une température trop élevée du liquide de refroidissement.",
-      "answer": "Le candidat montre le voyant sur le tableau de bord."
+      "answer": "Le candidat montre le voyant sur le tableau de bord.",
+      "answer_en": "The candidate shows the warning light on the dashboard.",
+      "answer_simple": "Le candidat montre le voyant sur le tableau de bord."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est la conséquence d'une température trop élevée de ce liquide?",
-      "answer": "La surchauffe ou la casse moteur."
+      "answer": "La surchauffe ou la casse moteur.",
+      "answer_en": "Engine overheating or engine failure.",
+      "answer_simple": "Le moteur chauffe trop et peut casser."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Lors d'un appel avec les services de secours, pourquoi devez-vous attendre que votre correspondant vous autorise à raccrocher?",
-      "answer": "Car il peut nous conseiller ou nous guider dans la réalisation des gestes à faire, ou ne pas faire, jusqu'à l'arrivée des secours."
+      "answer": "Car il peut nous conseiller ou nous guider dans la réalisation des gestes à faire, ou ne pas faire, jusqu'à l'arrivée des secours.",
+      "answer_en": "Because they may advise or guide you on what to do or not do until the emergency services arrive.",
+      "answer_simple": "Parce qu'il peut nous dire quoi faire ou ne pas faire en attendant les secours."
     }
   },
   {
@@ -1683,17 +2280,23 @@
     "verification": {
       "type": "VE",
       "question": "Sur le flanc d'un pneumatique, désignez le repère du témoin d'usure de la bande de roulement.",
-      "answer": "Le candidat montre le repère (souvent TWI ou un symbole)."
+      "answer": "Le candidat montre le repère (souvent TWI ou un symbole).",
+      "answer_en": "The candidate shows the wear indicator marker (often TWI or a symbol).",
+      "answer_simple": "Le candidat montre le repère d'usure sur le pneu (souvent marqué TWI ou un symbole)."
     },
     "qser": {
       "type": "QSER",
       "question": "Qu'est-ce que l'aquaplanage, et quelle peut être sa conséquence ?",
-      "answer": "La présence d'un film d'eau entre le pneumatique et la chaussée pouvant entraîner une perte de contrôle du véhicule."
+      "answer": "La présence d'un film d'eau entre le pneumatique et la chaussée pouvant entraîner une perte de contrôle du véhicule.",
+      "answer_en": "The presence of a layer of water between the tire and the road surface, which can cause a loss of vehicle control.",
+      "answer_simple": "C'est quand il y a de l'eau entre le pneu et la route. La voiture peut devenir impossible à contrôler."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Si un dégagement d'urgence de la victime est nécessaire, où doit-elle être déplacée ?",
-      "answer": "Dans un endroit suffisamment éloigné du danger et de ses conséquences."
+      "answer": "Dans un endroit suffisamment éloigné du danger et de ses conséquences.",
+      "answer_en": "To a place far enough away from the danger and its consequences.",
+      "answer_simple": "Dans un endroit loin du danger."
     }
   },
   {
@@ -1701,17 +2304,23 @@
     "verification": {
       "type": "VI",
       "question": "Actionnez les feux de détresse.",
-      "answer": "L'action est effectuée par le candidat."
+      "answer": "L'action est effectuée par le candidat.",
+      "answer_en": "The action is performed by the candidate.",
+      "answer_simple": "Le candidat fait l'action."
     },
     "qser": {
       "type": "QSER",
       "question": "Dans quels cas doit-on les utiliser?",
-      "answer": "En cas de panne, d'accident ou de ralentissement important."
+      "answer": "En cas de panne, d'accident ou de ralentissement important.",
+      "answer_en": "In case of a breakdown, accident, or significant slowdown.",
+      "answer_simple": "Quand il y a une panne, un accident ou un ralentissement important."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels comportements adopter en cas de diffusion du signal d'alerte du Système d'Alerte et d'Information des Populations (SAIP)?",
-      "answer": "- Se mettre en sécurité.\n- S'informer grâce aux médias et sites internet des autorités dès que leur consultation est possible.\n- Respecter les consignes des autorités."
+      "answer": "- Se mettre en sécurité.\n- S'informer grâce aux médias et sites internet des autorités dès que leur consultation est possible.\n- Respecter les consignes des autorités.",
+      "answer_en": "- Get to safety.\n- Get information from the media and official authority websites as soon as possible.\n- Follow the instructions of the authorities.",
+      "answer_simple": "- Se mettre en sécurité.\n- Chercher des informations à la radio, à la télévision ou sur internet.\n- Faire ce que les autorités demandent."
     }
   },
   {
@@ -1719,17 +2328,23 @@
     "verification": {
       "type": "VE",
       "question": "A l'aide de la plaque indicative, donnez la pression préconisée pour les pneumatiques arrières, véhicule chargé.",
-      "answer": "Le candidat trouve l'information sur la plaque/étiquette et l'énonce."
+      "answer": "Le candidat trouve l'information sur la plaque/étiquette et l'énonce.",
+      "answer_en": "The candidate finds the information on the plate/label and states it.",
+      "answer_simple": "Le candidat lit l'information sur l'étiquette et la dit."
     },
     "qser": {
       "type": "QSER",
       "question": "A quelle fréquence est-il préconisé de vérifier la pression des pneus?",
-      "answer": "Chaque mois pour une utilisation normale de son véhicule et avant chaque long trajet."
+      "answer": "Chaque mois pour une utilisation normale de son véhicule et avant chaque long trajet.",
+      "answer_en": "Every month for normal vehicle use, and before every long trip.",
+      "answer_simple": "Tous les mois en utilisation normale, et avant chaque long voyage."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment et pourquoi protéger une zone de danger en cas d'accident de la route?",
-      "answer": "En délimitant clairement et largement la zone de danger de façon visible pour protéger les victimes et éviter un sur-accident."
+      "answer": "En délimitant clairement et largement la zone de danger de façon visible pour protéger les victimes et éviter un sur-accident.",
+      "answer_en": "By clearly and widely marking the danger zone in a visible way to protect victims and prevent a secondary accident.",
+      "answer_simple": "Il faut marquer la zone de danger de façon visible, assez loin, pour protéger les victimes et éviter un autre accident."
     }
   },
   {
@@ -1737,17 +2352,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez la commande permettant de désactiver l'airbag du passager avant.",
-      "answer": "Le candidat montre la commande (souvent un interrupteur à clé)."
+      "answer": "Le candidat montre la commande (souvent un interrupteur à clé).",
+      "answer_en": "The candidate shows the control (often a key-operated switch).",
+      "answer_simple": "Le candidat montre le bouton (souvent avec une clé)."
     },
     "qser": {
       "type": "QSER",
       "question": "Dans quelle situation doit-on le désactiver ?",
-      "answer": "Lors du transport d'un enfant dans un siège auto dos à la route."
+      "answer": "Lors du transport d'un enfant dans un siège auto dos à la route.",
+      "answer_en": "When transporting a child in a rear-facing car seat.",
+      "answer_simple": "Quand on transporte un enfant dans un siège auto dos à la route."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quelles sont les conditions pour réaliser le dégagement d'urgence d'une victime en présence d'un danger réel, immédiat et non contrôlable?",
-      "answer": "La victime doit être visible, facile à atteindre et rien ne doit gêner son dégagement. Il faut être sûr(e) de pouvoir réaliser le dégagement de la victime."
+      "answer": "La victime doit être visible, facile à atteindre et rien ne doit gêner son dégagement. Il faut être sûr(e) de pouvoir réaliser le dégagement de la victime.",
+      "answer_en": "The victim must be visible, easy to reach, and nothing must hinder their removal. You must be sure you can safely carry out the victim's extraction.",
+      "answer_simple": "La victime doit être visible et facile à atteindre. Rien ne doit gêner pour la déplacer. Il faut être sûr de pouvoir le faire."
     }
   },
   {
@@ -1755,17 +2376,23 @@
     "verification": {
       "type": "VE",
       "question": "Indiquez où se situe la sécurité enfant sur l'une des portières à l'arrière du véhicule.",
-      "answer": "Le candidat montre le dispositif sur une portière arrière."
+      "answer": "Le candidat montre le dispositif sur une portière arrière.",
+      "answer_en": "The candidate shows the child safety lock on one of the rear doors.",
+      "answer_simple": "Le candidat montre la sécurité enfant sur une porte arrière."
     },
     "qser": {
       "type": "QSER",
       "question": "Si la sécurité enfant est enclenchée, est-il possible d'ouvrir la portière arrière depuis l'extérieur?",
-      "answer": "Oui."
+      "answer": "Oui.",
+      "answer_en": "Yes.",
+      "answer_simple": "Oui."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels sont les risques pour une personne victime d'une hémorragie ?",
-      "answer": "Entraîner pour la victime une détresse circulatoire ou un arrêt cardiaque."
+      "answer": "Entraîner pour la victime une détresse circulatoire ou un arrêt cardiaque.",
+      "answer_en": "It can cause circulatory distress or cardiac arrest for the victim.",
+      "answer_simple": "La victime peut avoir un problème de circulation du sang ou un arrêt du coeur."
     }
   },
   {
@@ -1773,17 +2400,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez le voyant signalant l'absence de bouclage de la ceinture de sécurité du conducteur.",
-      "answer": "Le candidat montre le voyant sur le tableau de bord."
+      "answer": "Le candidat montre le voyant sur le tableau de bord.",
+      "answer_en": "The candidate shows the warning light on the dashboard.",
+      "answer_simple": "Le candidat montre le voyant sur le tableau de bord."
     },
     "qser": {
       "type": "QSER",
       "question": "En règle générale, à partir de quel âge un enfant peut-il être installé sur le siège passager avant du véhicule ?",
-      "answer": "10 ans."
+      "answer": "10 ans.",
+      "answer_en": "10 years old.",
+      "answer_simple": "10 ans."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment est composé le signal d'alerte du Système d'Alerte et d'Information des Populations (SAIP) diffusé par les sirènes ?",
-      "answer": "Il se compose de deux codes distincts:\n- le Signal National d'Alerte (SNA), variation du signal sur trois cycles successifs.\n- Le signal de fin d'alerte, signal continu."
+      "answer": "Il se compose de deux codes distincts:\n- le Signal National d'Alerte (SNA), variation du signal sur trois cycles successifs.\n- Le signal de fin d'alerte, signal continu.",
+      "answer_en": "It consists of two distinct codes:\n- The National Alert Signal (SNA), a varying signal over three successive cycles.\n- The end-of-alert signal, a continuous tone.",
+      "answer_simple": "Il y a deux sons différents :\n- Le signal d'alerte : le son change trois fois.\n- Le signal de fin : le son est continu (il ne change pas)."
     }
   },
   {
@@ -1791,17 +2424,23 @@
     "verification": {
       "type": "VE",
       "question": "Avec l'assistance de l'accompagnateur, contrôlez l'état, la propreté et le fonctionnement des feux de stop.",
-      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check that the brake lights are clean, in good condition and working (any anomaly must be reported).",
+      "answer_simple": "Les feux de stop doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est la conséquence en cas de panne des feux de stop?",
-      "answer": "Un manque d'information pour les usagers suiveurs et un risque de collision."
+      "answer": "Un manque d'information pour les usagers suiveurs et un risque de collision.",
+      "answer_en": "A lack of information for following road users and a risk of collision.",
+      "answer_simple": "Les voitures derrière ne savent pas qu'on freine, et il y a un risque d'accident."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Lors d'un appel avec les services de secours, pourquoi devez-vous attendre que votre correspondant vous autorise à raccrocher?",
-      "answer": "Car il peut nous conseiller ou nous guider dans la réalisation des gestes à faire, ou ne pas faire, jusqu'à l'arrivée des secours."
+      "answer": "Car il peut nous conseiller ou nous guider dans la réalisation des gestes à faire, ou ne pas faire, jusqu'à l'arrivée des secours.",
+      "answer_en": "Because they may advise or guide you on what to do or not do until the emergency services arrive.",
+      "answer_simple": "Parce qu'il peut nous dire quoi faire ou ne pas faire en attendant les secours."
     }
   },
   {
@@ -1809,17 +2448,23 @@
     "verification": {
       "type": "VI",
       "question": "Allumez le(s) feu(x) de brouillard arrière(s) et montrez le voyant correspondant.",
-      "answer": "L'action est effectuée par le candidat qui montre également le voyant."
+      "answer": "L'action est effectuée par le candidat qui montre également le voyant.",
+      "answer_en": "The action is performed by the candidate, who also shows the indicator light.",
+      "answer_simple": "Le candidat allume les feux de route (feux forts) et montre le voyant."
     },
     "qser": {
       "type": "QSER",
       "question": "Pouvez-vous les utiliser par forte pluie?",
-      "answer": "Non."
+      "answer": "Non.",
+      "answer_en": "No.",
+      "answer_simple": "Non."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels sont les signes d'un arrêt cardiaque?",
-      "answer": "La victime ne répond pas, ne réagit pas et ne respire pas, ou présente une respiration anormale."
+      "answer": "La victime ne répond pas, ne réagit pas et ne respire pas, ou présente une respiration anormale.",
+      "answer_en": "The victim does not respond, does not react, and does not breathe, or has abnormal breathing.",
+      "answer_simple": "La victime ne répond pas, ne réagit pas, et ne respire pas ou respire de façon anormale."
     }
   },
   {
@@ -1827,17 +2472,23 @@
     "verification": {
       "type": "VE",
       "question": "Vérifiez l'état, la propreté et le fonctionnement des feux diurnes.",
-      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée)."
+      "answer": "Vérification des feux, propres, en bon état et fonctionnent (toute anomalie doit être signalée).",
+      "answer_en": "Check that the brake lights are clean, in good condition and working (any anomaly must be reported).",
+      "answer_simple": "Les feux de stop doivent être propres, en bon état et fonctionner. Il faut signaler tout problème."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelle est leur utilité ?",
-      "answer": "Rendre le véhicule plus visible le jour."
+      "answer": "Rendre le véhicule plus visible le jour.",
+      "answer_en": "To make the vehicle more visible during the day.",
+      "answer_simple": "Rendre la voiture plus visible pendant la journée."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "A quel moment pouvez-vous mettre fin à un appel avec les secours?",
-      "answer": "Uniquement lorsque notre correspondant nous invite à le faire."
+      "answer": "Uniquement lorsque notre correspondant nous invite à le faire.",
+      "answer_en": "Only when your contact person tells you that you can hang up.",
+      "answer_simple": "Seulement quand la personne au téléphone dit que vous pouvez raccrocher."
     }
   },
   {
@@ -1845,17 +2496,23 @@
     "verification": {
       "type": "VI",
       "question": "Montrez la commande de recyclage de l'air.",
-      "answer": "Le candidat montre la commande."
+      "answer": "Le candidat montre la commande.",
+      "answer_en": "The candidate shows the control.",
+      "answer_simple": "Le candidat montre le bouton."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel peut être le risque de maintenir le recyclage de l'air de manière prolongée ?",
-      "answer": "Un risque de mauvaise visibilité par l'apparition de buée sur les surfaces vitrées."
+      "answer": "Un risque de mauvaise visibilité par l'apparition de buée sur les surfaces vitrées.",
+      "answer_en": "A risk of poor visibility due to condensation forming on the windows.",
+      "answer_simple": "De la buée peut apparaître sur les vitres et on voit mal."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels sont les risques pour une personne en perte de connaissance qui est allongée sur le dos?",
-      "answer": "L'arrêt respiratoire et l'arrêt cardiaque."
+      "answer": "L'arrêt respiratoire et l'arrêt cardiaque.",
+      "answer_en": "Respiratory arrest and cardiac arrest.",
+      "answer_simple": "La personne peut arrêter de respirer et son coeur peut s'arrêter."
     }
   },
   {
@@ -1863,17 +2520,23 @@
     "verification": {
       "type": "VE",
       "question": "Vérifiez la présence du triangle de pré-signalisation.",
-      "answer": "Le candidat indique où se trouve le triangle."
+      "answer": "Le candidat indique où se trouve le triangle.",
+      "answer_en": "The candidate indicates where the warning triangle is located.",
+      "answer_simple": "Le candidat montre où est le triangle de signalisation."
     },
     "qser": {
       "type": "QSER",
       "question": "Utilise-t-on le triangle de pré-signalisation sur autoroute ?",
-      "answer": "Non."
+      "answer": "Non.",
+      "answer_en": "No.",
+      "answer_simple": "Non."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quel comportement doit-on adopter en présence d'une victime en arrêt cardiaque ?",
-      "answer": "- ALERTER: alerter immédiatement les secours.\n- MASSER: pratiquer une réanimation cardio-pulmonaire.\n- DEFIBRILLER: utiliser un défibrillateur automatique (DAE) si possible."
+      "answer": "- ALERTER: alerter immédiatement les secours.\n- MASSER: pratiquer une réanimation cardio-pulmonaire.\n- DEFIBRILLER: utiliser un défibrillateur automatique (DAE) si possible.",
+      "answer_en": "- ALERT: immediately call emergency services.\n- COMPRESS: perform CPR (cardiopulmonary resuscitation).\n- DEFIBRILLATE: use an automated external defibrillator (AED) if available.",
+      "answer_simple": "- ALERTER : appeler les secours tout de suite.\n- MASSER : faire un massage cardiaque.\n- DÉFIBRILLER : utiliser un défibrillateur si possible."
     }
   },
   {
@@ -1881,17 +2544,23 @@
     "verification": {
       "type": "VI",
       "question": "Allumez les feux de route et montrez le voyant correspondant.",
-      "answer": "L'action est effectuée par le candidat qui montre également le voyant."
+      "answer": "L'action est effectuée par le candidat qui montre également le voyant.",
+      "answer_en": "The action is performed by the candidate, who also shows the indicator light.",
+      "answer_simple": "Le candidat allume les feux de route (feux forts) et montre le voyant."
     },
     "qser": {
       "type": "QSER",
       "question": "Quel est le risque de maintenir les feux de route lors d'un croisement avec d'autres usagers?",
-      "answer": "Un risque d'éblouissement des autres usagers."
+      "answer": "Un risque d'éblouissement des autres usagers.",
+      "answer_en": "A risk of dazzling other road users.",
+      "answer_simple": "On peut gêner avec la lumière les autres personnes sur la route."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quel est l'objectif du Signal d'Alerte et d'Information des Populations (SAIP)?",
-      "answer": "Avertir la population d'un danger imminent ou qu'un événement grave est en train de se produire."
+      "answer": "Avertir la population d'un danger imminent ou qu'un événement grave est en train de se produire.",
+      "answer_en": "To warn the population of an imminent danger or that a serious event is occurring.",
+      "answer_simple": "Prévenir les gens qu'il y a un danger ou qu'un événement grave se passe."
     }
   },
   {
@@ -1899,17 +2568,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez où s'effectue le changement d'une ampoule à l'avant du véhicule.",
-      "answer": "Le candidat montre l'emplacement (accès aux optiques). Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder."
+      "answer": "Le candidat montre l'emplacement (accès aux optiques). Si le candidat a des difficultés pour ouvrir le capot, l'accompagnateur peut lui indiquer comment procéder.",
+      "answer_en": "The candidate shows the location (access to the headlight assembly). If the candidate has difficulty opening the hood, the accompanying driver may show them how to proceed.",
+      "answer_simple": "Le candidat montre l'endroit pour changer une ampoule à l'avant. Si le candidat ne peut pas ouvrir le capot (avant de la voiture), l'accompagnateur peut l'aider."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelles sont les conséquences en cas de panne d'un feu de croisement ?",
-      "answer": "Une mauvaise visibilité et le risque d'être confondu avec un deux roues."
+      "answer": "Une mauvaise visibilité et le risque d'être confondu avec un deux roues.",
+      "answer_en": "Poor visibility and the risk of being mistaken for a motorcycle.",
+      "answer_simple": "On voit mal la route et les autres peuvent confondre la voiture avec une moto."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Citez les trois manières d'évaluer l'état de conscience d'une victime?",
-      "answer": "- Lui poser des questions simples (\"comment ça va?\", \"vous m'entendez ?\").\n- Lui secouer doucement les épaules.\n- Lui prendre la main en lui demandant d'exécuter un geste simple (\"serrez-moi la main\")."
+      "answer": "- Lui poser des questions simples (\"comment ça va?\", \"vous m'entendez ?\").\n- Lui secouer doucement les épaules.\n- Lui prendre la main en lui demandant d'exécuter un geste simple (\"serrez-moi la main\").",
+      "answer_en": "- Ask simple questions (\"How are you?\", \"Can you hear me?\").\n- Gently shake the shoulders.\n- Take their hand and ask them to perform a simple gesture (\"Squeeze my hand\").",
+      "answer_simple": "- Poser des questions simples (\"ça va ?\", \"vous m'entendez ?\").\n- Secouer doucement les épaules.\n- Prendre la main et demander un geste simple (\"serrez ma main\")."
     }
   },
   {
@@ -1917,17 +2592,23 @@
     "verification": {
       "type": "VI",
       "question": "Faites fonctionner l'essuie-glace arrière du véhicule.",
-      "answer": "L'action est effectuée par le candidat."
+      "answer": "L'action est effectuée par le candidat.",
+      "answer_en": "The action is performed by the candidate.",
+      "answer_simple": "Le candidat fait l'action."
     },
     "qser": {
       "type": "QSER",
       "question": "Pour une bonne visibilité vers l'arrière, en plus de l'utilisation de l'essuie-glace, quelle commande pouvez-vous actionner par temps de pluie ?",
-      "answer": "La commande de désembuage arrière. Le terme dégivrage peut remplacer celui de désembuage."
+      "answer": "La commande de désembuage arrière. Le terme dégivrage peut remplacer celui de désembuage.",
+      "answer_en": "The rear demister control. The term 'defroster' can be used instead of 'demister'.",
+      "answer_simple": "Le bouton de désembuage arrière (pour enlever la buée sur la vitre arrière)."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Quels comportements adopter en présence d'une victime qui ne répond pas et ne réagit pas, mais respire?",
-      "answer": "- La placer en position stable sur le côté ou position latérale de sécurité.\n- Alerter les secours.\n- Surveiller la respiration de la victime jusqu'à l'arrivée des secours."
+      "answer": "- La placer en position stable sur le côté ou position latérale de sécurité.\n- Alerter les secours.\n- Surveiller la respiration de la victime jusqu'à l'arrivée des secours.",
+      "answer_en": "- Place her in a stable position on her side, also known as the recovery position.\n- Call emergency services.\n- Monitor the victim's breathing until help arrives.",
+      "answer_simple": "- Mettre la personne sur le côté (position sur le côté).\n- Appeler les secours.\n- Vérifier sa respiration jusqu'à l'arrivée des secours."
     }
   },
   {
@@ -1935,17 +2616,23 @@
     "verification": {
       "type": "VE",
       "question": "Montrez où s'effectue le changement d'une ampoule à l'arrière du véhicule.",
-      "answer": "Le candidat montre l'emplacement (accès aux optiques)."
+      "answer": "Le candidat montre l'emplacement (accès aux optiques).",
+      "answer_en": "The candidate shows the location (access to the rear light assembly).",
+      "answer_simple": "Le candidat montre l'endroit pour changer une ampoule à l'arrière."
     },
     "qser": {
       "type": "QSER",
       "question": "Quelles sont les conséquences en cas de panne d'un feu de position arrière?",
-      "answer": "Être mal vu et un risque de collision."
+      "answer": "Être mal vu et un risque de collision.",
+      "answer_en": "Being poorly seen and a risk of collision.",
+      "answer_simple": "Les autres voitures nous voient mal et il y a un risque d'accident."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Comment est diffusée l'alerte émise par le Signal d'Alerte et d'Information aux Populations (SAIP)?",
-      "answer": "Grâce aux sirènes, aux médias tels que Radio France et France Télévision ou encore grâce à l'application SAIP."
+      "answer": "Grâce aux sirènes, aux médias tels que Radio France et France Télévision ou encore grâce à l'application SAIP.",
+      "answer_en": "Through sirens, media such as Radio France and France Télévision, or through the SAIP application.",
+      "answer_simple": "Par les sirènes, la radio, la télévision, ou l'application du système d'alerte."
     }
   },
   {
@@ -1953,20 +2640,77 @@
     "verification": {
       "type": "VI",
       "question": "Montrez le voyant indiquant une baisse de pression d'air d'un pneumatique.",
-      "answer": "Le candidat montre le voyant (obligatoire sur véhicules neufs depuis 01/11/2014)."
+      "answer": "Le candidat montre le voyant (obligatoire sur véhicules neufs depuis 01/11/2014).",
+      "answer_en": "The candidate points to the warning light (mandatory on new vehicles since November 1, 2014).",
+      "answer_simple": "Le candidat montre le voyant. Ce voyant est obligatoire sur les voitures neuves depuis le 1er novembre 2014."
     },
     "qser": {
       "type": "QSER",
       "question": "A quelle fréquence est-il préconisé de vérifier la pression d'air des pneumatiques?",
-      "answer": "Tous les mois."
+      "answer": "Tous les mois.",
+      "answer_en": "Every month.",
+      "answer_simple": "Tous les mois."
     },
     "premier_secours": {
       "type": "1er secours",
       "question": "Qu'est ce qu'un arrêt cardiaque?",
-      "answer": "Le cœur ne fonctionne plus ou fonctionne d'une façon anarchique."
+      "answer": "Le cœur ne fonctionne plus ou fonctionne d'une façon anarchique.",
+      "answer_en": "The heart has stopped working or is functioning erratically.",
+      "answer_simple": "Le coeur ne marche plus ou bat de façon désordonnée."
     }
   }
 ];
+
+        // Foreigner mode state
+        let foreignerMode = localStorage.getItem('foreignerMode') || 'off';
+
+        const configBtn = document.getElementById('foreigner-config-btn');
+        const configPanel = document.getElementById('foreigner-config-panel');
+        const configModeLabel = document.getElementById('config-mode-label');
+        const foreignerToggle = document.getElementById('foreigner-toggle');
+        const foreignerSelect = document.getElementById('foreigner-select');
+
+        function updateConfigUI() {
+            const isActive = foreignerMode !== 'off';
+            foreignerToggle.checked = isActive;
+            foreignerSelect.style.display = isActive ? 'block' : 'none';
+            if (isActive) {
+                foreignerSelect.value = foreignerMode;
+            }
+            const labels = { english: 'EN', simple: 'Simple', both: 'EN+Simple' };
+            configModeLabel.textContent = labels[foreignerMode] || '';
+        }
+
+        function toggleConfigPanel() {
+            configPanel.classList.toggle('open');
+        }
+
+        function onForeignerToggle() {
+            if (foreignerToggle.checked) {
+                foreignerMode = foreignerSelect.value || 'english';
+            } else {
+                foreignerMode = 'off';
+            }
+            localStorage.setItem('foreignerMode', foreignerMode);
+            updateConfigUI();
+            if (currentQuestionData) displayQuestionSet();
+        }
+
+        function onForeignerSelectChange() {
+            foreignerMode = foreignerSelect.value;
+            localStorage.setItem('foreignerMode', foreignerMode);
+            updateConfigUI();
+            if (currentQuestionData) displayQuestionSet();
+        }
+
+        // Close panel on outside click
+        document.addEventListener('click', (e) => {
+            if (!configPanel.contains(e.target) && !configBtn.contains(e.target)) {
+                configPanel.classList.remove('open');
+            }
+        });
+
+        updateConfigUI();
 
         const questionBlockArea = document.getElementById('question-block-area');
         const questionIdDisplay = document.getElementById('question-id-display');
@@ -1993,17 +2737,25 @@
         }
 
         function createQuestionItemHTML(itemData, itemKey) {
-            if (!itemData || !itemData.question) return ''; // Ne rien afficher si pas de question
+            if (!itemData || !itemData.question) return '';
 
-            const typeClass = `type-${itemData.type.toLowerCase().replace(/\s+/g, '-')}`; // e.g., type-1er-secours
-            // Utiliser itemKey pour créer des identifiants uniques pour les réponses
+            const typeClass = `type-${itemData.type.toLowerCase().replace(/\s+/g, '-')}`;
             const answerId = `${itemKey}-answer-text`;
+
+            let translationsHTML = '';
+            if ((foreignerMode === 'english' || foreignerMode === 'both') && itemData.answer_en) {
+                translationsHTML += `<p class="answer-text translation-en" style="display:none;"><span class="translation-label">\ud83c\uddec\ud83c\udde7</span>${itemData.answer_en}</p>`;
+            }
+            if ((foreignerMode === 'simple' || foreignerMode === 'both') && itemData.answer_simple) {
+                translationsHTML += `<p class="answer-text translation-simple" style="display:none;"><span class="translation-label">\ud83c\uddeb\ud83c\uddf7 Simple</span>${itemData.answer_simple}</p>`;
+            }
 
             return `
                 <div class="question-item" id="${itemKey}-item">
                     <span class="question-type ${typeClass}">${itemData.type}</span>
                     <p class="question-text">${itemData.question}</p>
                     <p class="answer-text" id="${answerId}">${itemData.answer || "L'action est à effectuer."}</p>
+                    ${translationsHTML}
                 </div>
             `;
         }
